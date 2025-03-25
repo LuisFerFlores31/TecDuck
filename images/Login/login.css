@@ -9,14 +9,21 @@ body {
 .header {
     padding: 50px 0;
     font-size: 24px;
-    background-image: url('/images/Mateduck.jpeg'); 
+    background-image: url('/images/pato.jpg'); 
     background-size: cover; 
-    background-repeat: no-repeat;
-    background-position: center;
+    /* background-repeat: no-repeat;
+    background-position: center; */
     text-align: center;
-    padding: 100px 0; 
+    padding: 180px 0; 
     color: white;
     
+}
+.text-outline {
+    color: white; /* Color del texto */
+    text-shadow: -2px -2px 0 black,  
+                 2px -2px 0 black,  
+                -2px  2px 0 black,  
+                 2px  2px 0 black; /* Contorno negro */
 }
 
 
