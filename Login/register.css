@@ -72,12 +72,6 @@ button {
     text-align: left;
     padding-top: 100px;
 }
-.register-title {
-    font-weight: normal;
-    font-size: 15px;
-    text-align: left;
-
-}
 
 .register-container {
     width: 30%;
@@ -89,9 +83,4 @@ button {
     color: black;
 }
 
-.social-login {
-    display: flex;
-    flex-direction: column; 
-    align-items: flex-start; 
-}
 
