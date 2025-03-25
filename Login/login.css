@@ -1,23 +1,53 @@
-/* login.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background: url('background.jpg') no-repeat center center fixed;
     text-align: center;
+    color: white;
+    margin: 0;
+    padding: 0;
 }
-.container {
-    width: 50%;
+.header {
+    padding: 50px 0;
+    font-size: 24px;
+    background-image: url('/images/Mateduck.jpeg'); 
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    padding: 100px 0; 
+    color: white;
+    
+}
+
+
+.login-title {
+    font-size: 28px;
+    margin-bottom: 50px;
+}
+
+.login-container {
+    width: 30%;
     margin: auto;
-    background: white;
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
+    color: black;
+}
+.input-group {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    
 }
 input {
-    width: 100%;
     padding: 10px;
-    margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+    text-align: left;
+    width: 300px;
 }
 button {
     background: black;
@@ -25,5 +55,43 @@ button {
     padding: 10px;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: auto;
+    margin-top: 10px;
+    border-radius: 5px;
 }
+
+.starter-btn {
+    margin-top: 50px;
+}
+
+.recover{
+    font-size: 13px;
+}
+
+.register-section {
+    text-align: left;
+    padding-top: 100px;
+}
+.register-title {
+    font-weight: bold;
+    font-size: 28px;
+    text-align: left;
+
+}
+
+.register-container {
+    width: 30%;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+}
+
