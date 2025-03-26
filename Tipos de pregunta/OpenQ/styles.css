@@ -45,12 +45,14 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-/* Enhanced styles for the preview box */
 .preview-box {
     display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin: 20px auto; 
+    max-width: 600px; 
     border: 1px solid #ddd;
     padding: 20px;
-    margin-top: 20px;
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

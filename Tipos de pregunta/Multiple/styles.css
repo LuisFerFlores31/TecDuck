@@ -78,6 +78,7 @@ button:hover {
 }
 a {
     display: block;
+    width: 100%;
     text-align: center;
     margin-top: 20px;
     color: #007bff;
