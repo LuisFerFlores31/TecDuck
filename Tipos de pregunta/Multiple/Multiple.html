@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Multiple</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opción Múltiple</title>
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Nueva Pregunta Opción Múltiple</h1>
+        <form id="multiple-choice-form">
+            <div class="question">
+                <label for="question-text">Pregunta:</label>
+                <input type="text" id="question-text" name="question-text" required>
+            </div>
+            <div class="options">
+                <div class="option">
+                    <label for="option1">Opción A:</label>
+                    <input type="text" id="option1" name="option1" required>
+                </div>
+                <div class="option">
+                    <label for="option2">Opción B:</label>
+                    <input type="text" id="option2" name="option2" required>
+                </div>
+                <div class="option">
+                    <label for="option3">Opción C:</label>
+                    <input type="text" id="option3" name="option3">
+                </div>
+                <div class="option">
+                    <label for="option4">Opción D:</label>
+                    <input type="text" id="option4" name="option4">
+                </div>
+            </div>
+            <button type="submit">Guardar Pregunta</button>
+        </form>
+    </div>
+
+    <div>
+        <h2> Preview </h2>
+        <div class="preview-box">
+            <div class="preview-question">
+                <p id="preview-question">Aquí aparecerá la pregunta</p>
+            </div>
+            <div class="preview-options">
+                <div class="option">
+                    <button id="preview-option1-button">Opción A</button>
+                </div>
+                <div class="option">
+                    <button id="preview-option2-button">Opción B</button>
+                </div>
+                <div class="option">
+                    <button id="preview-option3-button">Opción C</button>
+                </div>
+                <div class="option">
+                    <button id="preview-option4-button">Opción D</button>
+                </div>
+            </div>
+        </div>
+        <a href="../SelectQ.html">Volver al Inicio</a>
+    </div>
+
+    <script>
+        document.getElementById('multiple-choice-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get the question and options from the form
+            const questionText = document.getElementById('question-text').value;
+            const option1 = document.getElementById('option1').value;
+            const option2 = document.getElementById('option2').value;
+            const option3 = document.getElementById('option3').value;
+            const option4 = document.getElementById('option4').value;
+
+            // Update the preview section
+            document.getElementById('preview-question').textContent = questionText;
+            document.getElementById('preview-option1-button').textContent = option1;
+            document.getElementById('preview-option2-button').textContent = option2;
+            document.getElementById('preview-option3-button').textContent = option3 || ''; // Handle optional fields
+            document.getElementById('preview-option4-button').textContent = option4 || ''; // Handle optional fields
+
+            // Show an alert to confirm the question was saved
+            alert('Pregunta guardada con éxito!');
+        });
+    </script>
+</body>
+</html>
