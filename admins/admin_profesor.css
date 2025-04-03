@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -40,9 +39,6 @@ nav {
   font-weight: bold;
 }
 
-
-
-
 main {
   max-width: 1200px;
   margin: 2rem auto;
@@ -76,14 +72,16 @@ main {
   max-width: 200px;      
 }
 
+/* MODIFICADO: Botón con fondo negro, letras blancas, mayor tamaño y padding */
 .actions-buttons button {
   background: #000;
   color: #fff;
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 2rem;
   border: none;
   cursor: pointer;
   font-weight: bold;
   text-align: center;
+  font-size: 1.2rem;
 }
 
 .actions-buttons button:hover {
@@ -116,6 +114,7 @@ main {
   border-radius: 4px;
 }
 
+/* Si deseas mantener el mismo estilo en el botón del formulario, puedes dejarlo igual */
 .register-profesor button {
   background: #000;
   color: #fff;
@@ -131,14 +130,19 @@ main {
 
 .estado-preguntas {
   margin-top: 2rem;
-  display: flex;
-  gap: 1rem;
 }
 
 .estado-preguntas h3 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
 }
+
+.preguntas-container {
+  display: flex;
+  gap: 1rem;
+}
+
+
 
 .pregunta-card {
   flex: 1;
