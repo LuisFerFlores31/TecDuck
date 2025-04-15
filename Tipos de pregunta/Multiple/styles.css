@@ -49,25 +49,32 @@ button:hover {
 /* Enhanced styles for the preview box */
 .preview-box {
     display: flex;
+    flex-direction: column;
     border: 1px solid #ddd;
     padding: 20px;
     margin-top: 20px;
+    margin: 20px auto; /* Center the preview box */
+    width: 600px; /* Reduced width */
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .preview-question {
-    flex: 1;
-    margin-right: 20px;
+    width: 100%;
+    text-align: center;
     font-weight: bold;
     font-size: 18px;
     color: #555;
+    margin-bottom: 20px;
 }
 .preview-options {
-    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .preview-options .option {
     margin-bottom: 10px;
+    display: flex;
 }
 .preview-options input[type="radio"] {
     margin-right: 10px;
@@ -88,7 +95,6 @@ a {
 a:hover {
     text-decoration: underline;
 }
-/* Styles for the preview option buttons */
 .preview-options .option button {
     display: block;
     width: 100%;
