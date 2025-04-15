@@ -16,9 +16,39 @@
             </div>
             <div class="options">
                 <label for="correct-answer">Respuesta Correcta:</label>
-                <select id="correct-answer" name="correct-answer" required>
+                <select id="isla-answer" name="isla-answer" required>
                     <option value="true">Verdadero</option>
                     <option value="false">Falso</option>
+                </select>
+            </div>
+
+            <div class="options">
+                <label for="isla-select">Isla:</label>
+                <select id="isla-select" name="isla-select" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <!-- The value "8.2" is included to handle specific scenarios where a subcategory of island 8 is required. -->
+                    <option value="8.2">8.2</option>
+                    <option value="8.3">8.3</option>
+                    <option value="9">9</option>
+                    <option value="9.2">9.2</option>
+                    <option value="10">10</option>
+                    <option value="10.2">10.2</option>
+                </select>
+            </div>
+
+            <div class="options">
+                <label for="level-select">Nivel:</label>
+                <select id="level-select" name="level-select" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
                 </select>
             </div>
                 
@@ -71,5 +101,6 @@
             alert('Seleccionaste: Falso');
         });
     </script>
-</body>
+    <script src="script.js"></script>
+    </body>
 </html>
