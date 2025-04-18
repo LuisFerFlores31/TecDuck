@@ -1,72 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Matecduck - Administrador</title>
-  <link rel="stylesheet" href="admin_profesor.css" />
+  <link rel="stylesheet" href="admin_profesor.css">
 </head>
 <body>
 
-  
-  <header>
-    <nav>
-      <div class="nav-left">
-        <h1 class="logo">Matecduck</h1>
-      </div>
-      <div class="nav-right">
-        <ul>
-          <li><a href="#">Gestion de Preguntas</a></li>
-          <li><a href="#">Vista de Profesor</a></li>
-          <li><a href="#">Base de Datos</a></li>
-          <li><a href="#">Log out</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+<header>
+  <nav>
+    <div class="nav-left">
+      <h1 class="logo">Matecduck</h1>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="#">Gestión de Preguntas</a></li>
+        <li><a href="#">Vista de Profesor</a></li>
+        <li><a href="#">Base de Datos</a></li>
+        <li><a href="#">Salir de sesión</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
 
-  <main>
-    <section class="admin-section">
+<main>
+  <section class="admin-section">
 
-      
-      <h2>Admin</h2>
+    <h2>Admin</h2>
+    <div class="admin-actions">
+      <h3>¿Qué quieres hacer?</h3>
+      <button class="big-button">Gestionar</button>
+    </div>
 
-      
-      <div class="admin-actions">
-        <h3>¿Qué quieres hacer?</h3>
-        <div class="actions-buttons">
-          
-          <button>Consultar</button>
-          <button>Modificar</button>
-          <button>Eliminar</button>
-          <button>Validar</button>
+    <div class="register-profesor">
+      <h3>Registrar Profesor</h3>
+      <form action="#" method="POST">
+        <div class="name-group">
+          <div>
+            <label for="firstname">Nombre</label>
+            <input type="text" id="firstname" name="firstname" placeholder="Nombre" required>
+          </div>
+          <div>
+            <label for="lastname">Apellido</label>
+            <input type="text" id="lastname" name="lastname" placeholder="Apellido" required>
+          </div>
         </div>
-      </div>
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" placeholder="email@ejemplo.com" required>
 
-      
-      <div class="register-profesor">
-        <h3>Registrar Profesor</h3>
-        <form action="#" method="POST">
-          <label for="firstname">First Name: </label>
-          <input type="text" id="firstname" name="firstname" required />
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" placeholder="Podrá cambiarla después" required>
 
-          <label for="lastname">Last Name: </label>
-          <input type="text" id="lastname" name="lastname" required />
-          
-          <br>
-          <label for="email">Email: </label>
-          <input type="email" id="email" name="email" required />
-          </br>
+        <button type="submit" class="submit-button">Registrar</button>
+      </form>
+    </div>
 
-          <label for="password">Password: </label>
-          <input type="password" id="password" name="password" required />
-          
-          <br>
-          <button type="submit">Submit: </button>
-          </br>
-        </form>
-      </div>
-    </section>
-  </main>
+  </section>
+</main>
+
 </body>
 </html>
-

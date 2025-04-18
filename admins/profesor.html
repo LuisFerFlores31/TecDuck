@@ -14,59 +14,58 @@
       </div>
       <div class="nav-right">
         <ul>
-          <li><a href="#">Gestion de Preguntas</a></li>
+          <li><a href="#">Gestión de Preguntas</a></li>
           <li><a href="#">Vista de Profesor</a></li>
           <li><a href="#">Base de Datos</a></li>
-          <li><a href="#">Log out</a></li>
+          <li><a href="#">Salir de la sesión</a></li>
         </ul>
       </div>
     </nav>
   </header>
 
   
+
   <main>
-    <section class="prof-section">
-
-      
-      <h2>Profesor</h2>
-
-      <div class="prof-actions">
-        <h3>¿Qué quieres hacer?</h3>
-        <div class="actions-buttons">
-          
-          <button>Agregar</button>
-          <button>Modificar</button>
-          <button>Eliminar</button>
-          <button>Consultar estado</button>
-        </div>
-      </div>
-
+    <section class="admin-section">
   
-      <div class="estado-preguntas">
-        <h3>Estado de preguntas</h3>
-
-        
-        <div class="pregunta-card">
-          <h4>Pq #1</h4>
-          <p>Estado: Pendiente</p>
-          <p>En revisión</p>
+      <h1 class="section-title">Profesor</h1>
+      <p class="section-subtitle">¿Qué quieres hacer?</p>
+      <button class="big-button">Gestionar</button>
+  
+      <h2 class="estado-preguntas">Estado de preguntas</h2>
+  
+      <div class="cards-container">
+        <div class="card">
+          <p class="card-title">"P1, I2 N2"</p>
+          <p class="card-status">Estado: Pendiente</p>
+          <div class="card-footer">
+            <p class="card-role"><strong>Profesor:</strong> Luis</p>
+            <p class="card-description">Descripción</p>
+          </div>
         </div>
-
-        
-        <div class="pregunta-card">
-          <h4>Pq #2</h4>
-          <p>Estado: En revisión</p>
-          <p>Tipo: Opción múltiple</p>
+  
+        <div class="card">
+          <p class="card-title">"P2 I1 N1"</p>
+          <p class="card-status">Estado: en revisión</p>
+          <div class="card-footer">
+            <p class="card-role"><strong>Supervisor:</strong> Jose</p>
+            <p class="card-description">Descripción</p>
+          </div>
         </div>
-
-        
-        <div class="pregunta-card">
-          <h4>Pq #3</h4>
-          <p>Estado: Aceptada</p>
-          <p>Tipo: Abierta</p>
+  
+        <div class="card">
+          <p class="card-title">"P3 I3 N5"</p>
+          <p class="card-status">Estado: Aceptado</p>
+          <div class="card-footer">
+            <p class="card-role"><strong>Admin:</strong> Luis Fer</p>
+            <p class="card-description">Descripción</p>
+          </div>
         </div>
       </div>
+  
     </section>
   </main>
-</body>
-</html>
+  
+  </body>
+  
+  </html>
