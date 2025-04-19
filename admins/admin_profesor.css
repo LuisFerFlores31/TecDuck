@@ -104,3 +104,39 @@ input::placeholder {
   flex-direction: row; 
   gap: 40px;           
 }
+
+.registro-section {
+  margin-top: 60px;
+  padding-left: 50px;
+}
+
+.registro-section .section-title {
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+}
+
+#registro-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 450px;
+}
+
+#registro-form input[type="text"],
+#registro-form input[type="email"],
+#registro-form input[type="password"] {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.submit-button {
+  background-color: #000;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  width: 150px;
+}
