@@ -140,3 +140,166 @@ input::placeholder {
   font-size: 1.1rem;
   width: 150px;
 }
+
+.gestion-preguntas-section {
+  padding: 50px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.search-input {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #f0f0f5;
+  flex: 1;
+  font-size: 1rem;
+}
+
+.search-btn {
+  background-color: transparent;
+  border: none;
+  margin-left: -35px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.preguntas-tabla {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 40px 20px; /* Mayor separación entre columnas y filas */
+  font-size: 1rem;
+}
+
+.preguntas-tabla th {
+  text-align: left;
+  font-weight: bold;
+}
+
+.preguntas-tabla td {
+  padding: 10px 5px;
+}
+
+.tabla-btn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* --- Página de creación/edición de preguntas --- */
+
+.gestion-profe {
+  padding: 50px;
+}
+
+.gestion-profe h2 {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.gestion-profe h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Contenedor principal: izq + der */
+.gestion-content {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.gestion-left,
+.gestion-right {
+  flex: 1;
+}
+
+/* Inputs y lista de opciones */
+.gestion-left label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.gestion-left input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.options-list {
+  list-style: none;
+  padding: 0;
+}
+
+.options-list li {
+  margin-bottom: 12px;
+}
+
+.options-list label {
+  display: inline-block;
+  width: 80px;
+}
+
+/* Sección derecha */
+.gestion-right label {
+  display: block;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.gestion-right select {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.small-button {
+  background-color: #eee;
+  color: #000;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Vista previa */
+.preview {
+  margin-top: 40px;
+}
+
+.preview-text {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fraction sup,
+.fraction sub {
+  font-size: 0.9rem;
+}
+
+.options-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.options-preview .big-button {
+  margin: 0;
+}

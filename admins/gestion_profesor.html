@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear/Editar Pregunta – Matecduck</title>
+  <link rel="stylesheet" href="admin_profesor.css">
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="nav-left">
+      <h1 class="logo">Matecduck</h1>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="gestion_preguntas.html">Gestión de Preguntas</a></li>
+        <li><a href="profesor.html">Vista de Profesor</a></li>
+        <li><a href="#">Base de Datos</a></li>
+        <li><a href="#">Salir de la sesión</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="gestion-profe">
+
+    <h2>Elegir tipo de pregunta</h2>
+    <h1>Pregunta 1 (Opción múltiple)</h1>
+
+    <div class="gestion-content">
+      <div class="gestion-left">
+        <label for="titulo">Inserte Título:</label>
+        <input type="text" id="titulo"
+               placeholder="Resuelve la siguiente operación (2/3) + (3/5) =">
+
+        <ul class="options-list">
+          <li><label>Opción A:</label> <input type="text" value="2/5"></li>
+          <li><label>Opción B:</label> <input type="text" value="6/15"></li>
+          <li><label>Opción C:</label> <input type="text" value="19/15"></li>
+          <li><label>Opción D:</label> <input type="text" value="5/8"></li>
+        </ul>
+      </div>
+
+      <div class="gestion-right">
+        <label for="isla">Seleccione isla:</label>
+        <select id="isla">
+          <option>Fracciones</option>
+        </select>
+
+        <label for="nivel">Seleccione nivel:</label>
+        <select id="nivel">
+          <option>3</option>
+        </select>
+
+        <button class="small-button">Guardar cambios</button>
+      </div>
+    </div>
+
+    <div class="preview">
+      <p class="preview-text">
+        Resuelve la siguiente operación
+        <span class="fraction">
+          <sup>2</sup>/<sub>3</sub> + <sup>3</sup>/<sub>5</sub>
+        </span> =
+      </p>
+
+      <div class="options-preview">
+        <button class="big-button">2/5</button>
+        <button class="big-button">6/15</button>
+        <button class="big-button">19/15</button>
+        <button class="big-button">5/8</button>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+</body>
+</html>

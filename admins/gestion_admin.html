@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestionar Preguntas - Matecduck</title>
+  <link rel="stylesheet" href="admin_profesor.css">
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="nav-left">
+      <h1 class="logo">Matecduck</h1>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="#">Gestión de Preguntas</a></li>
+        <li><a href="#">Vista de Profesor</a></li>
+        <li><a href="#">Base de Datos</a></li>
+        <li><a href="#">Salir de la sesión</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="gestion-preguntas-section">
+
+    <div class="search-container">
+      <input type="text" placeholder="Buscar preguntas..." class="search-input">
+      <button class="search-btn">🔍</button>
+    </div>
+
+    <table class="preguntas-tabla">
+      <thead>
+        <tr>
+          <th>Pregunta</th>
+          <th>Respuesta</th>
+          <th>Isla</th>
+          <th>Nivel</th>
+          <th>Botón</th>
+          <th>Profesor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pregunta 1</td>
+          <td>Respuesta 1</td>
+          <td>Isla 1</td>
+          <td>Nivel 1</td>
+          <td><button class="tabla-btn">Editar</button></td>
+          <td>Profesor A</td>
+        </tr>
+        <tr>
+          <td>Pregunta 2</td>
+          <td>Respuesta 2</td>
+          <td>Isla 2</td>
+          <td>Nivel 2</td>
+          <td><button class="tabla-btn">Editar</button></td>
+          <td>Profesor B</td>
+        </tr>
+        <tr>
+          <td>Pregunta 3</td>
+          <td>Respuesta 3</td>
+          <td>Isla 3</td>
+          <td>Nivel 3</td>
+          <td><button class="tabla-btn">Editar</button></td>
+          <td>Profesor C</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </section>
+</main>
+
+</body>
+</html>
