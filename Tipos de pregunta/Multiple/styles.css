@@ -1,4 +1,3 @@
-
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -110,4 +109,28 @@ a:hover {
 }
 .preview-options .option button:hover {
     background-color: #0056b3;
+}
+.dropdowns {
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.dropdown label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.dropdown select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+    cursor: pointer;
 }
