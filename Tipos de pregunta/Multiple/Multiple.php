@@ -1,68 +1,89 @@
-CREATE TABLE Preguntas (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    enunciado TEXT NOT NULL,
-    isla TINYINT NOT NULL,
-    nivel TINYINT NOT NULL,
-    usuario VARCHAR(40) NOT NULL,
-    estado TINYINT NOT NULL DEFAULT 0,             -- 1 = aprobada, 0 = en espera de aprobación, 2 = rechazada
-    tipo TINYINT NOT NULL,               -- 1 = opción múltiple, 2 = respuesta abierta, 3 = verdadero/falso
-    FOREIGN KEY (usuario) REFERENCES Usuarios(email)
-);
-
-
-CREATE TABLE Respuestas (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    enunciado VARCHAR(255) NOT NULL,
-    esCorrecta BOOLEAN NOT NULL DEFAULT 0,
-    pregunta_id INT NOT NULL,
-    numero_respuesta TINYINT NOT NULL,
-    UNIQUE (pregunta_id, numero_respuesta),
-    FOREIGN KEY (pregunta_id) REFERENCES Preguntas(id)
-);
-
 <?php
-
+// Database configuration
 $dbhost = 'localhost';
 $dbuser = 'root';
 $dbpass = '';
 $dbname = 'tecduck';
 
+// Create connection
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+
+// Check connection
 if (!$conn) {
     die("Error de conexión: " . mysqli_connect_error());
 }
 
-// Recoger datos
-$pregunta = $_POST["question-text"];
-$isla = (int)$_POST["island"];
-$nivel = (int)$_POST["level"];
-$usuario = $_POST["usuario"];
-$tipo = (int)$_POST["tipo"];
-$estado = 0; // en espera
+// Function to sanitize input
+function sanitize_input($data) {
+    global $conn;
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    $data = mysqli_real_escape_string($conn, $data);
+    return $data;
+}
 
-// Insertar pregunta
-$sql_pregunta = "INSERT INTO Preguntas (enunciado, isla, nivel, usuario, estado, tipo)
-                 VALUES ('$pregunta', $isla, $nivel, '$usuario', $estado, $tipo)";
+// Validate and sanitize input
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $pregunta = sanitize_input($_POST["question-text"]);
+    $isla = (int)$_POST["island"];
+    $nivel = (int)$_POST["level"];
+    $usuario = "A01738347@tec.mx"; // correo de ejemplo
+    $tipo = (int)$_POST["tipo"];
+    $estado = 0; // en espera
 
-if (mysqli_query($conn, $sql_pregunta)) {
-    $id_pregunta = mysqli_insert_id($conn);
-
-    // Insertar respuestas
-    for ($i = 1; $i <= 4; $i++) {
-        if (!empty($_POST["respuesta$i"])) {
-            $respuesta = $_POST["respuesta$i"];
-            $correcta = (int)$_POST["correcta$i"];
-
-            $sql_respuesta = "INSERT INTO Respuestas (enunciado, esCorrecta, pregunta_id, numero_respuesta)
-                              VALUES ('$respuesta', $correcta, $id_pregunta, $i)";
-            mysqli_query($conn, $sql_respuesta);
-        }
+    // Validate required fields
+    if (empty($pregunta) || empty($isla) || empty($nivel) || empty($usuario)) {
+        die("Error: Todos los campos requeridos deben estar completos");
     }
 
-    // Confirmación
-    echo "<script>alert('Pregunta guardada con éxito'); window.location.href='Multiple.html';</script>";
-} else {
-    echo "Error al insertar pregunta: " . mysqli_error($conn);
+    // Start transaction
+    mysqli_begin_transaction($conn);
+
+    try {
+        // Insert question
+        $sql_pregunta = "INSERT INTO Preguntas (id, enunciado, isla, nivel, usuario, estado, tipo)
+                        VALUES (null, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = mysqli_prepare($conn, $sql_pregunta);
+        mysqli_stmt_bind_param($stmt, "siisii", $pregunta, $isla, $nivel, $usuario, $estado, $tipo);
+        
+        if (!mysqli_stmt_execute($stmt)) {
+            throw new Exception("Error al insertar pregunta: " . mysqli_error($conn));
+        }
+
+        $id_pregunta = mysqli_insert_id($conn);
+
+        // Insert answers
+        for ($i = 1; $i <= 4; $i++) {
+            if (!empty($_POST["respuesta$i"])) {
+                $respuesta = sanitize_input($_POST["respuesta$i"]);
+                $correcta = (int)$_POST["correcta$i"];
+
+                $sql_respuesta = "INSERT INTO Respuestas (enunciado, esCorrecta, pregunta_id, numero_respuesta)
+                                VALUES (?, ?, ?, ?)";
+                
+                $stmt = mysqli_prepare($conn, $sql_respuesta);
+                mysqli_stmt_bind_param($stmt, "siii", $respuesta, $correcta, $id_pregunta, $i);
+                
+                if (!mysqli_stmt_execute($stmt)) {
+                    throw new Exception("Error al insertar respuesta: " . mysqli_error($conn));
+                }
+            }
+        }
+
+        // Commit transaction
+        mysqli_commit($conn);
+        
+        // Redirect with success message
+        header("Location: Multiple.html?success=1");
+        exit();
+
+    } catch (Exception $e) {
+        // Rollback transaction on error
+        mysqli_rollback($conn);
+        die("Error: " . $e->getMessage());
+    }
 }
 
 mysqli_close($conn);
