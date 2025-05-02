@@ -100,25 +100,25 @@
     </div>
 
     <script>
-        document.getElementById('multiple-choice-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // Update preview in real-time as user types
+        document.getElementById('question-text').addEventListener('input', function() {
+            document.getElementById('preview-question').textContent = this.value;
+        });
 
-            // Get the question and options from the form
-            const questionText = document.getElementById('question-text').value;
-            const option1 = document.getElementById('option1').value;
-            const option2 = document.getElementById('option2').value;
-            const option3 = document.getElementById('option3').value;
-            const option4 = document.getElementById('option4').value;
+        document.getElementById('option1').addEventListener('input', function() {
+            document.getElementById('preview-option1-button').textContent = this.value;
+        });
 
-            // Update the preview section
-            document.getElementById('preview-question').textContent = questionText;
-            document.getElementById('preview-option1-button').textContent = option1;
-            document.getElementById('preview-option2-button').textContent = option2;
-            document.getElementById('preview-option3-button').textContent = option3 || ''; // Handle optional fields
-            document.getElementById('preview-option4-button').textContent = option4 || ''; // Handle optional fields
+        document.getElementById('option2').addEventListener('input', function() {
+            document.getElementById('preview-option2-button').textContent = this.value;
+        });
 
-            // Show an alert to confirm the question was saved
-            alert('Pregunta guardada con éxito!');
+        document.getElementById('option3').addEventListener('input', function() {
+            document.getElementById('preview-option3-button').textContent = this.value;
+        });
+
+        document.getElementById('option4').addEventListener('input', function() {
+            document.getElementById('preview-option4-button').textContent = this.value;
         });
     </script>
 </body>
