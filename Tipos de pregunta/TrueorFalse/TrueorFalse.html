@@ -9,7 +9,8 @@
 <body>
     <div class="container">
         <h1>Nueva Pregunta Verdadero o Falso</h1>
-        <form id="true-false-form">
+        <form id="true-false-form" action="TrueorFalse.php" method="POST">
+            
             <div class="question">
                 <label for="question-text">Pregunta:</label>
                 <input type="text" id="question-text" name="question-text" required>
@@ -82,7 +83,7 @@
             document.getElementById('preview-question').textContent = questionText;
 
             // Show an alert to confirm the question was saved
-            alert('Pregunta guardada con éxito!');
+            //alert('Pregunta guardada con éxito!');
         });
 
         // Add event listeners to the True and False buttons

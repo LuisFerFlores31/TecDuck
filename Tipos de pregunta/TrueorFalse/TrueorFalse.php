@@ -82,8 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_commit($conn);
         
         // Redirect with success message
-        header("Location: TrueorFalse.html?success=1");
-        exit();
+        //header("Location: TrueorFalse.html?success=1");
+        //exit();
 
     } catch (Exception $e) {
         // Rollback transaction on error
