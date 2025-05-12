@@ -15,6 +15,41 @@
                 <label for="question-text">Pregunta:</label>
                 <input type="text" id="question-text" name="question-text" required>
             </div>
+
+            <input type="hidden" name="usuario" value="test@example.com"> <!-- Replace with dynamic user -->
+            <input type="hidden" name="tipo" value="1"> <!-- Tipo 1 for multiple choice -->
+            <div class="dropdowns">
+                <div class="dropdown">
+                    <label for="island">Isla:</label>
+                    <select id="island" name="island" required>
+                        <option value="" disabled selected>Selecciona una isla</option>
+                        <option value=10>Isla 1</option>
+                        <option value=20>Isla 2</option>
+                        <option value=30>Isla 3</option>
+                        <option value=40>Isla 4</option>
+                        <option value=50>Isla 5</option>
+                        <option value=60>Isla 6</option>
+                        <option value=70>Isla 7</option>
+                        <option value=80>Isla 8</option>
+                        <option value=82>Isla 8.2</option>
+                        <option value=83>Isla 8.3</option>
+                        <option value=90>Isla 9</option>
+                        <option value=92>Isla 9.2</option>
+                        <option value=100>Isla 10</option>
+                        <option value=102>Isla 10.2</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <label for="level">Nivel:</label>
+                    <select id="level" name="level" required>
+                        <option value="" disabled selected>Selecciona un nivel</option>
+                        <option value=1>Nivel 1</option>
+                        <option value=2>Nivel 2</option>
+                        <option value=3>Nivel 3</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="answers">
                 <div class="answer">
                     <label for="answer1">Respuesta 1:</label>
