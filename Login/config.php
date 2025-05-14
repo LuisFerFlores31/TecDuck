@@ -1,5 +1,5 @@
 <?php
-$host = '';
+$host = '127.0.0.1';
 $db = 'matecduck'; 
 $user = 'root';            
 $pass = '';                
