@@ -1,3 +1,10 @@
+
+<?php
+include 'check_session.php';
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,7 +24,7 @@
           <li><a href="#">Gestión de Preguntas</a></li>
           <li><a href="#">Vista de Profesor</a></li>
           <li><a href="#">Base de Datos</a></li>
-          <li><a href="#">Salir de la sesión</a></li>
+          <li><a href="logout.php">Salir de la sesión</a></li>
         </ul>
       </div>
     </nav>
@@ -29,6 +36,10 @@
 
       
       <h2>Profesor</h2>
+
+      <div class="user-info">
+        <p>Bienvenido: <?php echo $_SESSION["email"]; ?></p>
+      </div>
 
       <div class="prof-actions">
         <h3>¿Gustas modificar las preguntas?</h3>

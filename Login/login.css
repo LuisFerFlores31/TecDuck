@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 body {
     font-family: Arial, sans-serif;
     background: url('background.jpg') no-repeat center center fixed;
@@ -10,7 +9,7 @@ body {
 .header {
     padding: 50px 0;
     font-size: 24px;
-    background-image: url('../images/pato.jpg'); 
+    background-image: url('/images/pato.jpg'); 
     background-size: cover; 
     /* background-repeat: no-repeat;
     background-position: center; */
@@ -56,28 +55,6 @@ input {
     border-radius: 5px;
     text-align: left;
     width: 300px;
-=======
-/* login.css */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    text-align: center;
-}
-.container {
-    width: 50%;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
->>>>>>> 0357471 (added loggin)
 }
 button {
     background: black;
@@ -85,7 +62,6 @@ button {
     padding: 10px;
     border: none;
     cursor: pointer;
-<<<<<<< HEAD
     width: auto;
     margin-top: 10px;
     border-radius: 5px;
@@ -125,8 +101,3 @@ button {
     flex-direction: column; 
     align-items: flex-start; 
 }
-
-=======
-    width: 100%;
-}
->>>>>>> 0357471 (added loggin)
