@@ -1,6 +1,6 @@
 <?php
 
-include 'check_session.php';
+include '../check_session.php';
 
 ?>
 
@@ -24,7 +24,7 @@ include 'check_session.php';
           <li><a href="#">Gestión de Preguntas</a></li>
           <li><a href="#">Vista de Profesor</a></li>
           <li><a href="#">Base de Datos</a></li>
-          <li><a href="logout.php">Salir de sesión</a></li>
+          <li><a href="../logout.php">Salir de sesión</a></li>
         </ul>
       </div>
     </nav>
@@ -37,7 +37,7 @@ include 'check_session.php';
       <h2>Admin</h2>
 
       <div class="user-info">
-        <p>Bienvenido: <?php echo $_SESSION["email"]; ?></p>
+        <p>Bienvenido: <?php echo htmlspecialchars($_SESSION["email"]); ?></p>
       </div>
       
       <div class="admin-actions">

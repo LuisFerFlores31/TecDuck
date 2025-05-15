@@ -24,10 +24,10 @@ if ($result->num_rows === 1) {
         // Redirigir según rol
         switch ($user["rol"]) {
             case 0:
-                header("Location: ../Login/admins/profesor.php");  
+                header("Location: admins/profesor.php");  
                 exit;
             case 1:
-                header("Location: ../Login/admins/admin.php");
+                header("Location: admins/admin.php");
                 exit;
             default:
                 echo "Rol no reconocido.";
@@ -42,4 +42,6 @@ if ($result->num_rows === 1) {
 
 $stmt->close();
 $conn->close();
+
+
 ?>
