@@ -1,9 +1,37 @@
+CREATE TABLE Preguntas (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    enunciado TEXT NOT NULL,
+    isla TINYINT NOT NULL,
+    nivel TINYINT NOT NULL,
+    usuario VARCHAR(40) NOT NULL,
+    estado TINYINT NOT NULL,  -- 1 = activa, 0 = inactiva
+
+    tipo ENUM('Open', 'Multiple', 'TrueorFalse') NOT NULL,
+
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    id_validador INT DEFAULT NULL,
+
+    FOREIGN KEY (usuario) REFERENCES Usuarios(email),
+    FOREIGN KEY (id_validador) REFERENCES Usuarios(id)
+);
+
+CREATE TABLE Respuestas (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    enunciado VARCHAR(255) NOT NULL,
+    esCorrecta BOOLEAN NOT NULL DEFAULT 0,
+    pregunta_id INT NOT NULL,
+    numero_respuesta TINYINT NOT NULL,
+    UNIQUE (pregunta_id, numero_respuesta),
+    FOREIGN KEY (pregunta_id) REFERENCES Preguntas(id)
+);
+
 <?php
 // Database configuration
 $dbhost = 'localhost';
 $dbuser = 'root';
 $dbpass = '';
-$dbname = 'tecduck';
+$dbname = 'tecduck2';
 
 // Create connection
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
@@ -29,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isla = (int)$_POST["island"];
     $nivel = (int)$_POST["level"];
     $usuario = "A01738347@tec.mx"; // correo de ejemplo
-    $tipo = (int)$_POST["tipo"];
+    $tipo = 2; // tipo de pregunta MULTIPLE
     $estado = 0; // en espera
 
     // Validate required fields
@@ -42,11 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Insert question
-        $sql_pregunta = "INSERT INTO Preguntas (id, enunciado, isla, nivel, usuario, estado, tipo)
-                        VALUES (null, ?, ?, ?, ?, ?, ?)";
-        
+        $sql_pregunta = "INSERT INTO Preguntas (id, enunciado, isla, nivel, usuario, estado, tipo, fecha_creacion, id_validador)
+                        VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $fecha_creacion = null;
+        $id_validador = null;
+
         $stmt = mysqli_prepare($conn, $sql_pregunta);
-        mysqli_stmt_bind_param($stmt, "siisii", $pregunta, $isla, $nivel, $usuario, $estado, $tipo);
+        mysqli_stmt_bind_param($stmt, "siisiiii", $pregunta, $isla, $nivel, $usuario, $estado, $tipo, $fecha_creacion, $id_validador);
         
         if (!mysqli_stmt_execute($stmt)) {
             throw new Exception("Error al insertar pregunta: " . mysqli_error($conn));
