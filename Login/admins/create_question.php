@@ -46,45 +46,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="admin_profesor.css">
 </head>
 <body>
-<header><?php include 'partials/nav.php'; ?></header>
-<main>
-  <h2>Crear nueva pregunta</h2>
-  <?php if($errors): ?>
-    <div class="errors">
-      <ul>
-      <?php foreach($errors as $e): ?>
-        <li><?=htmlspecialchars($e)?></li>
-      <?php endforeach; ?>
-      </ul>
-    </div>
-  <?php endif; ?>
-  <form method="post">
-    <label>Pregunta:</label>
-    <textarea name="pregunta"><?=htmlspecialchars($_POST['pregunta'] ?? '')?></textarea>
-    <label>Respuesta:</label>
-    <input type="text" name="respuesta" value="<?=htmlspecialchars($_POST['respuesta'] ?? '')?>">
 
-    <label>Isla:</label>
-    <input type="text" name="isla" value="<?=htmlspecialchars($_POST['isla'] ?? '')?>">
+  <header>
+    <nav>
+      <div class="nav-left">
+        <h1 class="logo">Matecduck</h1>
+      </div>
+      <div class="nav-right">
+        <ul>
+          <li><a href="gestion_preguntas.html">Gestión de Preguntas</a></li>
+          <li><a href="profesor.html">Vista de Profesor</a></li>
+          <li><a href="admin.html">Vista de Administrador</a></li>
+          <li><a href="logout.php">Salir de sesión</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
 
-    <label>Nivel:</label>
-    <input type="number" name="nivel" min="1" value="<?=htmlspecialchars($_POST['nivel'] ?? 1)?>">
+  <main>
+    <section class="register-profesor">
+      <h3>Crear Pregunta</h3>
+      <form action="create_question.php" method="post">
+        <label for="pregunta">Pregunta:</label>
+        <textarea id="pregunta" name="pregunta" rows="3" required></textarea>
 
-    <label>Dificultad:</label>
-    <select name="dificultad">
-      <?php foreach(['Fácil','Media','Difícil'] as $d): ?>
-        <option value="<?=$d?>"<?=isset($_POST['dificultad']) && $_POST['dificultad']===$d?' selected':''?>>
-          <?=$d?>
-        </option>
-      <?php endforeach; ?>
-    </select>
+        <label for="respuesta">Respuesta:</label>
+        <input type="text" id="respuesta" name="respuesta" required>
 
-    <label>Profesor:</label>
-    <input type="text" name="profesor" value="<?=htmlspecialchars($_POST['profesor'] ?? '')?>">
+        <label for="isla">Isla:</label>
+        <input type="text" id="isla" name="isla" required>
 
-    <button type="submit">Crear Pregunta</button>
-  </form>
-</main>
+        <label for="nivel">Nivel:</label>
+        <input type="number" id="nivel" name="nivel" min="1" required>
+
+        <label for="profesor">Profesor:</label>
+        <input type="text" id="profesor" name="profesor" required>
+
+        <button type="submit">Crear Pregunta</button>
+      </form>
+    </section>
+  </main>
+
 </body>
 </html>
-<?php Database::disconnect(); ?>

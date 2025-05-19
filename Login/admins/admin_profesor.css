@@ -72,7 +72,6 @@ main {
   max-width: 200px;      
 }
 
-/* MODIFICADO: Botón con fondo negro, letras blancas, mayor tamaño y padding */
 .actions-buttons button {
   background: #000;
   color: #fff;
@@ -114,7 +113,6 @@ main {
   border-radius: 4px;
 }
 
-/* Si deseas mantener el mismo estilo en el botón del formulario, puedes dejarlo igual */
 .register-profesor button {
   background: #000;
   color: #fff;
@@ -141,8 +139,6 @@ main {
   display: flex;
   gap: 1rem;
 }
-
-
 
 .pregunta-card {
   flex: 1;

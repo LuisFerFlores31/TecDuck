@@ -1,38 +1,3 @@
-<?php
-
-include __DIR__ . '/../check_session.php';
-
-
-require __DIR__ . '/../database.php';
-$pdo = Database::connect();
-
-
-$f_isla       = $_GET['filter_isla']       ?? '';
-$f_nivel      = $_GET['filter_nivel']      ?? '';
-
-$where  = [];
-$params = [];
-
-if ($f_isla !== '') {
-    $where[]         = 'isla = :isla';
-    $params[':isla'] = $f_isla;
-}
-if ($f_nivel !== '') {
-    $where[]           = 'nivel = :nivel';
-    $params[':nivel']  = $f_nivel;
-}
-
-
-
-$sql = 'SELECT pregunta, respuesta, isla, nivel, profesor
-        FROM preguntas';
-if (!empty($where)) {
-    $sql .= ' WHERE ' . implode(' AND ', $where);
-}
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$preguntas = $stmt->fetchAll();
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
