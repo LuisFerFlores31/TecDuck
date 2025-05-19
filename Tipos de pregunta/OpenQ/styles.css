@@ -50,7 +50,7 @@ button:hover {
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     margin: 20px auto; 
-    max-width: 600px; 
+    
     border: 1px solid #ddd;
     padding: 20px;
     border-radius: 8px;
@@ -108,6 +108,8 @@ a:hover {
 /* Styles for the response box and result message */
 .response-box {
     margin-top: 20px;
+    margin: 20px auto; /* Center the preview box */
+    width: 600px; /* Reduced width */
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -141,4 +143,29 @@ a:hover {
     font-size: 16px;
     font-weight: bold;
     color: #333;
+}
+
+.dropdowns {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.dropdown label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.dropdown select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+    cursor: pointer;
 }

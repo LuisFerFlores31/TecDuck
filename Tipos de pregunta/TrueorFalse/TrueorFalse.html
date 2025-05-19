@@ -9,16 +9,47 @@
 <body>
     <div class="container">
         <h1>Nueva Pregunta Verdadero o Falso</h1>
-        <form id="true-false-form">
+        <form id="true-false-form" action="TrueorFalse.php" method="POST">
+            
             <div class="question">
                 <label for="question-text">Pregunta:</label>
                 <input type="text" id="question-text" name="question-text" required>
             </div>
             <div class="options">
                 <label for="correct-answer">Respuesta Correcta:</label>
-                <select id="correct-answer" name="correct-answer" required>
+                <select id="isla-answer" name="isla-answer" required>
                     <option value="true">Verdadero</option>
                     <option value="false">Falso</option>
+                </select>
+            </div>
+
+            <div class="options">
+                <label for="isla-select">Isla:</label>
+                <select id="isla-select" name="isla-select" required>
+                    <option value=10>1</option>
+                    <option value=20>2</option>
+                    <option value=30>3</option>
+                    <option value=40>4</option>
+                    <option value=50>5</option>
+                    <option value=60>6</option>
+                    <option value=70>7</option>
+                    <option value=80>8</option>
+                    <!-- The value "8.2" is included to handle specific scenarios where a subcategory of island 8 is required. -->
+                    <option value=82>8.2</option>
+                    <option value=83>8.3</option>
+                    <option value=90>9</option>
+                    <option value=92>9.2</option>
+                    <option value=100>10</option>
+                    <option value=102>10.2</option>
+                </select>
+            </div>
+
+            <div class="options">
+                <label for="level-select">Nivel:</label>
+                <select id="level-select" name="level-select" required>
+                    <option value=1>Nivel 1</option>
+                    <option value=2>Nivel 2</option>
+                    <option value=3>Nivel 3</option>
                 </select>
             </div>
                 
@@ -52,7 +83,7 @@
             document.getElementById('preview-question').textContent = questionText;
 
             // Show an alert to confirm the question was saved
-            alert('Pregunta guardada con éxito!');
+            //alert('Pregunta guardada con éxito!');
         });
 
         // Add event listeners to the True and False buttons
@@ -71,5 +102,6 @@
             alert('Seleccionaste: Falso');
         });
     </script>
-</body>
+    <script src="script.js"></script>
+    </body>
 </html>
