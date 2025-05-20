@@ -54,8 +54,8 @@ function sanitize_input($data) {
 // Validate and sanitize input
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pregunta = sanitize_input($_POST["question-text"]);
-    $isla = (int)$_POST["island"];
-    $nivel = (int)$_POST["level"];
+    $isla = (int)$_POST["isla-select"];
+    $nivel = (int)$_POST["level-select"];
     $usuario = "A01738347@tec.mx"; // correo de ejemplo
     $tipo = 3; // tipo de pregunta TRUE or FALSE
     $estado = 0; // en espera
