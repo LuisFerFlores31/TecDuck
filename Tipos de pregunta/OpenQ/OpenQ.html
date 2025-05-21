@@ -10,14 +10,13 @@
 <body>
     <div class="container">
         <h1>Nueva Pregunta Respuesta Abierta</h1>
-        <form id="open-question-form">
+        <form id="open-question-form" action="OpenQ.php" method="POST">
             <div class="question">
                 <label for="question-text">Pregunta:</label>
                 <input type="text" id="question-text" name="question-text" required>
             </div>
 
             <input type="hidden" name="usuario" value="test@example.com"> <!-- Replace with dynamic user -->
-            <input type="hidden" name="tipo" value="1"> <!-- Tipo 1 for multiple choice -->
             <div class="dropdowns">
                 <div class="dropdown">
                     <label for="island">Isla:</label>
@@ -84,6 +83,8 @@
     </div>
 
     <script>
+        // Elimina el event.preventDefault() para permitir el envío normal del formulario
+        /*
         document.getElementById('open-question-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -104,7 +105,7 @@
             // Show an alert to confirm the question was saved
             alert('Pregunta guardada con éxito!');
         });
-
+        */
         document.getElementById('check-answer-button').addEventListener('click', function() {
             const userAnswer = document.getElementById('user-answer').value.trim().toLowerCase();
             const correctAnswers = JSON.parse(this.dataset.answers || '[]').map(a => a.toLowerCase());
