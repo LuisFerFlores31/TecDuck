@@ -2,6 +2,45 @@
 
 include '../check_session.php';
 
+$registro_exito = "";
+$registro_error = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    require '../config.php';
+
+    $nombre = trim($_POST["firstname"]);
+    $apellido = trim($_POST["lastname"]);
+    $email = trim($_POST["email"]);
+    $password = trim($_POST["password"]);
+    $rol = 0; // profesor
+
+    // Cifrar contraseña
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+    // Verificar si el correo ya existe
+    $stmt = $conn->prepare("SELECT id FROM Usuarios WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $registro_error = "El correo ya está registrado.";
+    } else {
+        // Insertar nuevo profesor
+        $stmt = $conn->prepare("INSERT INTO Usuarios (name, last_name, password, email, rol) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssi", $nombre, $apellido, $password_hash, $email, $rol);
+        
+        if ($stmt->execute()) {
+            $registro_exito = "Profesor registrado exitosamente.";
+        } else {
+            $registro_error = "Error al registrar profesor: " . $stmt->error;
+        }
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +95,12 @@ include '../check_session.php';
       
       <div class="register-profesor">
         <h3>Registrar Profesor</h3>
+        <?php if (!empty($registro_exito)): ?>
+          <p style="color: green;"><?php echo $registro_exito; ?></p>
+        <?php elseif (!empty($registro_error)): ?>
+          <p style="color: red;"><?php echo $registro_error; ?></p>
+        <?php endif; ?>
+
         <form action="#" method="POST">
           <label for="firstname">Primer Nombre: </label>
           <input type="text" id="firstname" name="firstname" required />

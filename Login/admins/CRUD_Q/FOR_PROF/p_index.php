@@ -3,7 +3,7 @@ include '../../../check_session.php';
 include '../../../config.php';
 
 $rol = $_SESSION['rol'];
-if ($rol !== 1) {
+if ($rol !== 0) {
     echo "No tienes permiso para acceder a esta página.";
     exit;
 }
@@ -31,7 +31,7 @@ $result = $stmt->get_result();
         <div class="row mb-3">
             <p>
                 <a href="../../../Tipos de pregunta/SelectQ.html" class="btn btn-success">Crear Nueva Pregunta</a>
-                <a href="../../admin.php" class="btn btn-secondary">Volver</a>
+                <a href="../../profesor.php" class="btn btn-secondary">Volver</a>
             </p>
             <table class="table table-striped table-bordered">
                 <thead class="table-dark">
@@ -66,7 +66,7 @@ $result = $stmt->get_result();
                                 ?>
                             </td>
                             <td width="250">
-                                <a class="btn btn-primary btn-sm" href="read.php?id=<?php echo $row['id']; ?>">Detalles</a>
+                                <a class="btn btn-primary btn-sm" href="p_read.php?id=<?php echo $row['id']; ?>">Detalles</a>
                                 <a class="btn btn-success btn-sm" href="update.php?id=<?php echo $row['id']; ?>">Actualizar</a>
                                 <a class="btn btn-danger btn-sm" href="delete.php?id=<?php echo $row['id']; ?>">Eliminar</a>
                             </td>

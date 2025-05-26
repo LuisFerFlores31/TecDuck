@@ -2,14 +2,14 @@
 require '../../../config.php';
 require '../../../check_session.php';
 
-if ($_SESSION['rol'] != 1) {
+if ($_SESSION['rol'] != 0) {
     echo "Acceso denegado";
     exit;
 }
 
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 if (!$id) {
-    header("Location: manage_q.php");
+    header("Location: p_index.php");
     exit;
 }
 
