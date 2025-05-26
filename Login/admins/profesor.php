@@ -21,7 +21,7 @@ include '../check_session.php';
       </div>
       <div class="nav-right">
         <ul>
-          <li><a href="#">Gestión de Preguntas</a></li>
+          <li><a href="../admins/CRUD_Q/manage_q.php">Gestión de Preguntas</a></li>
           <li><a href="#">Vista de Profesor</a></li>
           <li><a href="#">Base de Datos</a></li>
           <li><a href="../logout.php">Salir de la sesión</a></li>
@@ -42,10 +42,10 @@ include '../check_session.php';
       </div>
 
       <div class="prof-actions">
-        <h3>¿Gustas modificar las preguntas?</h3>
+        <h3>¿Gustas agregar preguntas?</h3>
         <div class="actions-buttons">
           
-          <button>Gestionar</button>
+          <button onclick="window.location.href='../../Tipos de pregunta/SelectQ.html'">Crear</button>
         </div>
       </div>
 
