@@ -79,33 +79,10 @@
             <button id="check-answer-button">Comprobar Respuesta</button>
             <p id="result-message"></p>
         </div>
-        <a href="../SelectQ.html">Volver al Inicio</a>
+        <a href="../SelectQ.php">Volver al Inicio</a>
     </div>
 
     <script>
-        // Elimina el event.preventDefault() para permitir el envío normal del formulario
-        /*
-        document.getElementById('open-question-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            // Get the question and answers from the form
-            const questionText = document.getElementById('question-text').value;
-            const answer1 = document.getElementById('answer1').value;
-            const answer2 = document.getElementById('answer2').value;
-            const answer3 = document.getElementById('answer3').value;
-            const answer4 = document.getElementById('answer4').value;
-
-            // Update the display question
-            document.getElementById('display-question').textContent = questionText;
-
-            // Store the answers for comparison
-            const answers = [answer1, answer2, answer3, answer4].filter(Boolean); // Remove empty answers
-            document.getElementById('check-answer-button').dataset.answers = JSON.stringify(answers);
-
-            // Show an alert to confirm the question was saved
-            alert('Pregunta guardada con éxito!');
-        });
-        */
         document.getElementById('check-answer-button').addEventListener('click', function() {
             const userAnswer = document.getElementById('user-answer').value.trim().toLowerCase();
             const correctAnswers = JSON.parse(this.dataset.answers || '[]').map(a => a.toLowerCase());
@@ -115,6 +92,16 @@
                 : 'Respuesta incorrecta. Intenta de nuevo.';
             document.getElementById('result-message').textContent = resultMessage;
         });
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const success = urlParams.get('success');
+            const user = urlParams.get('user');
+            
+            if (success === '1') {
+                alert('¡Pregunta guardada exitosamente por ' + (user || 'usuario') + '!');
+            }
+        };
     </script>
 </body>
 </html>

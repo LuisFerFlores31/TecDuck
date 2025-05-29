@@ -26,21 +26,20 @@
             <div class="options">
                 <label for="isla-select">Isla:</label>
                 <select id="isla-select" name="isla-select" required>
-                    <option value=10>1</option>
-                    <option value=20>2</option>
-                    <option value=30>3</option>
-                    <option value=40>4</option>
-                    <option value=50>5</option>
-                    <option value=60>6</option>
-                    <option value=70>7</option>
-                    <option value=80>8</option>
-                    <!-- The value "8.2" is included to handle specific scenarios where a subcategory of island 8 is required. -->
-                    <option value=82>8.2</option>
-                    <option value=83>8.3</option>
-                    <option value=90>9</option>
-                    <option value=92>9.2</option>
-                    <option value=100>10</option>
-                    <option value=102>10.2</option>
+                    <option value=10>Isla 1</option>
+                    <option value=20>Isla 2</option>
+                    <option value=30>Isla 3</option>
+                    <option value=40>Isla 4</option>
+                    <option value=50>Isla 5</option>
+                    <option value=60>Isla 6</option>
+                    <option value=70>Isla 7</option>
+                    <option value=80>Isla 8</option>
+                    <option value=82>Isla 8.2</option>
+                    <option value=83>Isla 8.3</option>
+                    <option value=90>Isla 9</option>
+                    <option value=92>Isla 9.2</option>
+                    <option value=100>Isla 10</option>
+                    <option value=102>Isla 10.2</option>
                 </select>
             </div>
 
@@ -69,7 +68,7 @@
                 <button id="preview-false-button">Falso</button>
             </div>
         </div>
-        <a href="../SelectQ.html">Volver al Inicio</a>
+        <a href="../SelectQ.php">Volver al Inicio</a>
     </div>
 
     <script>
@@ -88,7 +87,20 @@
             trueButton.classList.remove('selected');
             alert('Seleccionaste: Falso');
         });
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const success = urlParams.get('success');
+            const user = urlParams.get('user');
+            
+            if (success === '1') {
+                alert('¡Pregunta guardada exitosamente por ' + (user || 'usuario') + '!');
+            }
+        };
+        
     </script>
     <script src="script.js"></script>
+    
     </body>
 </html>
+

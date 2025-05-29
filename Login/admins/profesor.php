@@ -43,7 +43,7 @@ include '../check_session.php';
         <h3>¿Gustas agregar preguntas?</h3>
         <div class="actions-buttons">
           
-          <button onclick="window.location.href='../../Tipos de pregunta/SelectQ.html'">Crear</button>
+          <button onclick="window.location.href='../../Tipos de pregunta/SelectQ.php'">Crear</button>
         </div>
       </div>
 

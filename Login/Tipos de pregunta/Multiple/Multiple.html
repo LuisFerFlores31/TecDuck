@@ -95,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <a href="../SelectQ.html">Volver al Inicio</a>
+        <a href="../SelectQ.php">Volver al Inicio</a>
     </div>
 
     <script>
@@ -119,6 +119,17 @@
         document.getElementById('option4').addEventListener('input', function() {
             document.getElementById('preview-option4-button').textContent = this.value;
         });
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const success = urlParams.get('success');
+            const user = urlParams.get('user');
+            
+            if (success === '1') {
+                alert('¡Pregunta guardada exitosamente por ' + (user || 'usuario') + '!');
+            }
+        };
+
     </script>
 </body>
 </html>

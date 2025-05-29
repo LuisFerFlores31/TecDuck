@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <div class="nav-right">
         <ul>
           <li><a href="../admins/CRUD_Q/FOR_ADMIN/manage_q.php">Gestión de Preguntas</a></li> 
-          <li><a href="#">Pendientes por Revisar</li>
+          <li><a href="../admins/Pending/pending_q.php">Pendientes por Revisar</li>
           <li><a href="../admins/Read_professors/read_prof.php">Profesores</a></li>
           <li><a href="../logout.php">Salir de sesión</a></li>
         </ul>
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h3>¿Qué quieres hacer?</h3>
         <div class="actions-buttons">
           
-        <button onclick="window.location.href='../../Tipos de pregunta/SelectQ.html'">Crear pregunta</button>
+        <button onclick="window.location.href='../../Tipos de pregunta/SelectQ.php'">Crear pregunta</button>
 
         </div>
       </div>

@@ -1,5 +1,5 @@
 <?php
-require '../../../config.php'; // Ajusta si está en otra ruta
+require '../../../config.php'; 
 
 $id = $_GET['id'] ?? null;
 if (!$id) {
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $respuestas = $_POST['respuestas'] ?? [];
     $correcta = $_POST['correcta'] ?? -1;
 
-    // Validación básica
+    // Validación 
     if ($enunciado && $isla !== '' && $nivel !== '' && $tipo && $estado !== '') {
         $stmt = $conn->prepare("UPDATE Preguntas SET enunciado=?, isla=?, nivel=?, estado=?, tipo=? WHERE id=?");
         $stmt->bind_param("siiisi", $enunciado, $isla, $nivel, $estado, $tipo, $id);

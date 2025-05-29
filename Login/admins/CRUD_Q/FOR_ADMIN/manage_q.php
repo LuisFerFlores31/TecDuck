@@ -30,7 +30,7 @@ $result = $stmt->get_result();
         </div>
         <div class="row mb-3">
             <p>
-                <a href="../../../Tipos de pregunta/SelectQ.html" class="btn btn-success">Crear Nueva Pregunta</a>
+                <a href="../../../Tipos de pregunta/SelectQ.php" class="btn btn-success">Crear Nueva Pregunta</a>
                 <a href="../../admin.php" class="btn btn-secondary">Volver</a>
             </p>
             <table class="table table-striped table-bordered">
@@ -61,7 +61,7 @@ $result = $stmt->get_result();
                                             echo "<span class='badge' style='background-color: #218838;'>Aprobada</span>";
                                             break;
                                         default:
-                                            echo "<span class='badge bg-secondary'>Desconocido</span>";
+                                            echo "<span class='badge bg-secondary'style='background-color: #ff0000;'>Rechazada</span>";
                                     }
                                 ?>
                             </td>
