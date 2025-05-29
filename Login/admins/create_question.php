@@ -1,38 +1,66 @@
 <?php
+// create_question.php
 include __DIR__ . '/../check_session.php';
 require __DIR__ . '/../database.php';
 $pdo = Database::connect();
 
 $errors = [];
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $pregunta   = trim($_POST['pregunta']   ?? '');
-    $respuesta  = trim($_POST['respuesta']  ?? '');
-    $isla       = trim($_POST['isla']       ?? '');
-    $nivel      = intval($_POST['nivel']    ?? 0);
-    $dificultad = trim($_POST['dificultad'] ?? '');
-    $profesor   = trim($_POST['profesor']   ?? '');
+$old = [
+  'enunciado' => '',
+  'respuesta'  => '',
+  'isla'       => '',
+  'nivel'      => 1,
+  'tipo'       => 'Open',
+  'estado'     => 1
+];
 
-    if ($pregunta === '')   $errors[] = 'La pregunta es obligatoria.';
-    if ($respuesta === '')  $errors[] = 'La respuesta es obligatoria.';
-    if ($isla === '')       $errors[] = 'La isla es obligatoria.';
-    if ($nivel < 1)         $errors[] = 'El nivel debe ser entero ≥ 1.';
-    if (!in_array($dificultad, ['Fácil','Media','Difícil'])) 
-                            $errors[] = 'Dificultad inválida.';
-    if ($profesor === '')   $errors[] = 'El nombre del profesor es obligatorio.';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Recoger y sanear
+    foreach ($old as $k => &$v) {
+        $v = trim($_POST[$k] ?? $v);
+    }
+    $old['nivel']  = intval($old['nivel']);
+    $old['estado'] = intval($old['estado']);
+
+    // Validar
+    if ($old['enunciado'] === '') $errors[] = 'El enunciado es obligatorio.';
+    if ($old['respuesta']  === '') $errors[] = 'La respuesta es obligatoria.';
+    if ($old['isla']       === '') $errors[] = 'La isla es obligatoria.';
+    if ($old['nivel'] < 1)         $errors[] = 'El nivel debe ser ≥ 1.';
+    if (!in_array($old['tipo'], ['Open','Multiple','TrueorFalse'], true))
+                                   $errors[] = 'Tipo inválido.';
+    if (!in_array($old['estado'], [0,1], true))
+                                   $errors[] = 'Estado inválido.';
 
     if (empty($errors)) {
-        $sql = "INSERT INTO preguntas
-                (pregunta,respuesta,isla,nivel,dificultad,profesor)
-                VALUES (:pregunta,:respuesta,:isla,:nivel,:dificultad,:profesor)";
+        // 1) Insertar en Preguntas
+        $sql = "INSERT INTO Preguntas
+                (enunciado,isla,nivel,usuario,estado,tipo)
+                VALUES
+                (:enunciado,:isla,:nivel,:usuario,:estado,:tipo)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
-          ':pregunta'   => $pregunta,
-          ':respuesta'  => $respuesta,
-          ':isla'       => $isla,
-          ':nivel'      => $nivel,
-          ':dificultad' => $dificultad,
-          ':profesor'   => $profesor
+          ':enunciado'=> $old['enunciado'],
+          ':isla'     => $old['isla'],
+          ':nivel'    => $old['nivel'],
+          ':usuario'  => $_SESSION['email'],
+          ':estado'   => $old['estado'],
+          ':tipo'     => $old['tipo'],
         ]);
+        $pid = $pdo->lastInsertId();
+
+        // 2) Insertar en Respuestas (única, correcta #1)
+        $sql2 = "INSERT INTO Respuestas
+                 (enunciado,esCorrecta,pregunta_id,numero_respuesta)
+                 VALUES
+                 (:resp,1,:pid,1)";
+        $stmt2 = $pdo->prepare($sql2);
+        $stmt2->execute([
+          ':resp'=> $old['respuesta'],
+          ':pid' => $pid
+        ]);
+
+        Database::disconnect();
         header('Location: gestion_preguntas.php');
         exit;
     }
@@ -44,48 +72,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <title>Crear Pregunta – Matecduck</title>
   <link rel="stylesheet" href="admin_profesor.css">
+  <style>
+    textarea::placeholder,input::placeholder {
+      color: #999; font-style: italic;
+    }
+  </style>
 </head>
 <body>
-
   <header>
     <nav>
-      <div class="nav-left">
-        <h1 class="logo">Matecduck</h1>
-      </div>
+      <div class="nav-left"><h1 class="logo">Matecduck</h1></div>
       <div class="nav-right">
         <ul>
-          <li><a href="gestion_preguntas.html">Gestión de Preguntas</a></li>
-          <li><a href="profesor.html">Vista de Profesor</a></li>
-          <li><a href="admin.html">Vista de Administrador</a></li>
-          <li><a href="logout.php">Salir de sesión</a></li>
+          <li><a href="gestion_preguntas.php">Gestión de Preguntas</a></li>
+          <li><a href="profesor.php">Vista de Profesor</a></li>
+          <li><a href="admin.php">Vista de Administrador</a></li>
+          <li><a href="../logout.php">Salir de sesión</a></li>
         </ul>
       </div>
     </nav>
   </header>
-
   <main>
     <section class="register-profesor">
       <h3>Crear Pregunta</h3>
+      <?php if ($errors): ?>
+        <div class="errors"><ul>
+          <?php foreach ($errors as $e): ?>
+            <li><?= htmlspecialchars($e) ?></li>
+          <?php endforeach; ?>
+        </ul></div>
+      <?php endif; ?>
       <form action="create_question.php" method="post">
-        <label for="pregunta">Pregunta:</label>
-        <textarea id="pregunta" name="pregunta" rows="3" required></textarea>
+        <label for="enunciado">Enunciado:</label>
+        <textarea id="enunciado" name="enunciado" rows="3"
+          placeholder="Escribe la pregunta aquí"
+          required></textarea>
 
         <label for="respuesta">Respuesta:</label>
-        <input type="text" id="respuesta" name="respuesta" required>
+        <input type="text" id="respuesta" name="respuesta"
+          placeholder="Escribe la respuesta para la pregunta"
+          required value="">
 
         <label for="isla">Isla:</label>
-        <input type="text" id="isla" name="isla" required>
+        <input type="text" id="isla" name="isla"
+          placeholder="Número de isla"
+          required value="">
 
         <label for="nivel">Nivel:</label>
-        <input type="number" id="nivel" name="nivel" min="1" required>
+        <input type="number" id="nivel" name="nivel" min="1"
+          placeholder="Nivel"
+          required value="<?= htmlspecialchars($old['nivel']) ?>">
 
-        <label for="profesor">Profesor:</label>
-        <input type="text" id="profesor" name="profesor" required>
+        <label for="tipo">Tipo:</label>
+<select id="tipo" name="tipo" required>
+  <option 
+    value="Multiple"
+    <?= (isset($old['tipo']) && $old['tipo'] === 'Multiple') ? 'selected' : '' ?>
+  
+    Multiple
+  </option>
+  <option 
+    value="TrueorFalse"
+    <?= (isset($old['tipo']) && $old['tipo'] === 'TrueorFalse') ? 'selected' : '' ?>
+  
+    Verdadero o Falso
+  </option>
+</select>
+
 
         <button type="submit">Crear Pregunta</button>
       </form>
     </section>
   </main>
-
 </body>
 </html>

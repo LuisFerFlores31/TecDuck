@@ -1,37 +1,20 @@
 <?php
-
-include __DIR__ . '/../check_session.php';
-
-
+//include __DIR__ . '/../check_session.php';
 require __DIR__ . '/../database.php';
 $pdo = Database::connect();
 
-
-$f_isla       = $_GET['filter_isla']       ?? '';
-$f_nivel      = $_GET['filter_nivel']      ?? '';
-
-$where  = [];
-$params = [];
-
-if ($f_isla !== '') {
-    $where[]         = 'isla = :isla';
-    $params[':isla'] = $f_isla;
-}
-if ($f_nivel !== '') {
-    $where[]           = 'nivel = :nivel';
-    $params[':nivel']  = $f_nivel;
-}
-
-
-
-$sql = 'SELECT pregunta, respuesta, isla, nivel, profesor
-        FROM preguntas';
-if (!empty($where)) {
-    $sql .= ' WHERE ' . implode(' AND ', $where);
-}
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$preguntas = $stmt->fetchAll();
+$sql = "
+  SELECT p.id, p.enunciado, p.isla, p.nivel, p.tipo, p.estado,
+         u.name, u.last_name,
+         r.enunciado AS respuesta
+    FROM Preguntas p
+    JOIN Usuarios u ON p.usuario = u.email
+    LEFT JOIN Respuestas r
+      ON r.pregunta_id = p.id AND r.numero_respuesta = 1
+ ORDER BY p.fecha_creacion DESC
+";
+$preguntas = $pdo->query($sql)->fetchAll();
+Database::disconnect();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -41,102 +24,102 @@ $preguntas = $stmt->fetchAll();
   <link rel="stylesheet" href="admin_profesor.css">
 </head>
 <body>
+  <header>
+    <nav>
+      <div class="nav-left"><h1 class="logo">Matecduck</h1></div>
+      <div class="nav-right">
+        <ul>
+          <li><a href="gestion_preguntas.php">Gestión de Preguntas</a></li>
+          <li><a href="profesor.php">Vista de Profesor</a></li>
+          <li><a href="admin.php">Vista de Administrador</a></li>
+          <li><a href="../logout.php">Salir</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="gestion-preguntas-section">
 
-<header>
-  <nav>
-    <div class="nav-left">
-      <h1 class="logo">Matecduck</h1>
-    </div>
-    <div class="nav-right">
-      <ul>
-        <li><a href="gestion_preguntas.html">Gestión de Preguntas</a></li>
-        <li><a href="profesor.html">Vista de Profesor</a></li>
-        <li><a href="admin.html">Vista de Administrador</a></li>
-        <li><a href="logout.php">Salir de la sesión</a></li>
-      </ul>
-    </div>
-  </nav>
-</header>
+      <!-- FILTROS -->
+      <form class="filter-section" method="get">
+        <label for="filter-isla">Isla:</label>
+        <select id="filter-isla" name="filter_isla">
+          <option value="">Todas</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
 
-<main>
-  <section class="gestion-preguntas-section">
+        <label for="filter-nivel">Nivel:</label>
+        <select id="filter-nivel" name="filter_nivel">
+          <option value="">Todos</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
 
-    <form class="filter-section" method="get" action="gestion_preguntas.html">
-      <label for="filter-isla">Isla:</label>
-      <select id="filter-isla" name="filter_isla">
-        <option value="">Todas</option>
-        <option>Isla 1</option>
-        <option>Isla 2</option>
-        <option>Isla 3</option>
-        <option>Isla 4</option>
-        <option>Isla 5</option>
-        <option>Isla 6</option>
-        <option>Isla 7</option>
-        <option>Isla 8</option>
-        <option>Isla 8.5</option>
-        <option>Isla 9</option>
-      </select>
+        <button id="filter-btn" type="button">Filtrar</button>
+      </form>
 
-      <label for="filter-nivel">Nivel:</label>
-      <select id="filter-nivel" name="filter_nivel">
-        <option value="">Todos</option>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-      </select>
+      <!-- TABLA -->
+      <div style="overflow-x:auto;">
+        <table class="preguntas-tabla">
+          <thead>
+            <tr>
+              <th>Enunciado</th>
+              <th>Respuesta</th>
+              <th>Isla</th>
+              <th>Nivel</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Autor</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($preguntas as $p): ?>
+            <tr>
+              <td><?= htmlspecialchars($p['enunciado']) ?></td>
+              <td><?= htmlspecialchars($p['respuesta']) ?></td>
+              <td><?= htmlspecialchars($p['isla']) ?></td>
+              <td><?= htmlspecialchars($p['nivel']) ?></td>
+              <td><?= htmlspecialchars($p['tipo']) ?></td>
+              <td><?= $p['estado']==1?'Activa':'Inactiva' ?></td>
+              <td><?= htmlspecialchars($p['name'].' '.$p['last_name']) ?></td>
+              <td>
+                <a href="edit_question.php?id=<?= $p['id'] ?>"
+                   class="tabla-btn">Editar</a>
+                <a href="delete_question.php?id=<?= $p['id'] ?>"
+                   class="tabla-btn delete-btn"
+                   onclick="return confirm('¿Eliminar esta pregunta?');">
+                  Eliminar
+                </a>
+              </td>
+            </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
 
-      <button id="filter-btn" type="submit">Filtrar</button>
-    </form>
+    </section>
+  </main>
 
-    <table class="preguntas-tabla" style="border-collapse: separate; border-spacing: 80px 20px;">
-      <thead>
-        <tr>
-          <th>Pregunta</th>
-          <th>Respuesta</th>
-          <th>Isla</th>
-          <th>Nivel</th>
-          <th>Botón</th>
-          <th>Profesor</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>¿Cuánto es 2+2?</td>
-          <td>4</td>
-          <td>Isla 1</td>
-          <td>1</td>
-          <td><button class="tabla-btn">Editar</button></td>
-          <td>Profesora A</td>
-        </tr>
-        <tr>
-          <td>¿5·3?</td>
-          <td>15</td>
-          <td>Isla 2</td>
-          <td>2</td>
-          <td><button class="tabla-btn">Editar</button></td>
-          <td>Profesor B</td>
-        </tr>
-        <tr>
-          <td>¿12/4?</td>
-          <td>3</td>
-          <td>Isla 1</td>
-          <td>1</td>
-          <td><button class="tabla-btn">Editar</button></td>
-          <td>Profesor C</td>
-        </tr>
-        <tr>
-          <td>¿√16?</td>
-          <td>4</td>
-          <td>Isla 3</td>
-          <td>3</td>
-          <td><button class="tabla-btn">Editar</button></td>
-          <td>Profesora D</td>
-        </tr>
-      </tbody>
-    </table>
-
-  </section>
-</main>
-
+  <script>
+    document.getElementById("filter-btn").addEventListener("click",function(){
+      const isla  = document.getElementById("filter-isla").value.trim();
+      const nivel = document.getElementById("filter-nivel").value.trim();
+      document.querySelectorAll(".preguntas-tabla tbody tr")
+        .forEach(r => {
+          const cIsla  = r.cells[2].textContent.trim();
+          const cNivel = r.cells[3].textContent.trim();
+          r.style.display = (
+            (!isla  || cIsla  === isla) &&
+            (!nivel || cNivel === nivel)
+          ) ? "" : "none";
+        });
+    });
+  </script>
 </body>
 </html>

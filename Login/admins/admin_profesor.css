@@ -151,3 +151,54 @@ main {
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
 }
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 50px;
+}
+
+.filter-section label {
+  font-weight: bold;
+}
+
+.filter-section select {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+#filter-btn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.preguntas-tabla {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 40px 20px; 
+}
+
+.preguntas-tabla th {
+  text-align: left;
+  font-weight: bold;
+}
+
+.preguntas-tabla td {
+  padding: 8px 0;
+}
+
+.tabla-btn {
+  background-color: #000;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: inline-block;
+}
