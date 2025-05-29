@@ -1,5 +1,4 @@
 <?php
-// create_question.php
 include __DIR__ . '/../check_session.php';
 require __DIR__ . '/../database.php';
 $pdo = Database::connect();
@@ -15,14 +14,12 @@ $old = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recoger y sanear
     foreach ($old as $k => &$v) {
         $v = trim($_POST[$k] ?? $v);
     }
     $old['nivel']  = intval($old['nivel']);
     $old['estado'] = intval($old['estado']);
 
-    // Validar
     if ($old['enunciado'] === '') $errors[] = 'El enunciado es obligatorio.';
     if ($old['respuesta']  === '') $errors[] = 'La respuesta es obligatoria.';
     if ($old['isla']       === '') $errors[] = 'La isla es obligatoria.';
@@ -33,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                    $errors[] = 'Estado inválido.';
 
     if (empty($errors)) {
-        // 1) Insertar en Preguntas
         $sql = "INSERT INTO Preguntas
                 (enunciado,isla,nivel,usuario,estado,tipo)
                 VALUES
@@ -49,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $pid = $pdo->lastInsertId();
 
-        // 2) Insertar en Respuestas (única, correcta #1)
         $sql2 = "INSERT INTO Respuestas
                  (enunciado,esCorrecta,pregunta_id,numero_respuesta)
                  VALUES

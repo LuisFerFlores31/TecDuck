@@ -1,5 +1,5 @@
 <?php
-//include __DIR__ . '/../check_session.php';
+include __DIR__ . '/../check_session.php';
 require __DIR__ . '/../database.php';
 $pdo = Database::connect();
 
@@ -40,7 +40,6 @@ Database::disconnect();
   <main>
     <section class="gestion-preguntas-section">
 
-      <!-- FILTROS -->
       <form class="filter-section" method="get">
         <label for="filter-isla">Isla:</label>
         <select id="filter-isla" name="filter_isla">
