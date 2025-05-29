@@ -77,8 +77,9 @@ $conn->close();
                             case 1:
                                 echo "Aprobada";
                                 break;
-                            default:
-                                echo "Desconocido";
+                            case 2:
+                                echo "Rechazada";
+                                break;
                         }
                     ?>
                 </label>
