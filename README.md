@@ -64,7 +64,7 @@ brew services start httpd
 
 ### Access the project
 ```
-http://localhost:8090/login.html
+http://localhost:8090/login.php
 
 ```
 

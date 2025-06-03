@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["user_id"])) {
-    header("Location: login.html");
+    header("Location: login.php");
     exit;
 }
 
@@ -20,7 +20,7 @@ function getUserRole() {
             $_SESSION["rol"] = $user["rol"];
         } else {
             session_destroy();
-            header("Location: login.html");
+            header("Location: login.php");
             exit;
         }
         $stmt->close();

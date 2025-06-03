@@ -12,7 +12,7 @@ function sanitize_input($data) {
 }
 
 if (!isset($_SESSION["user_id"]) || !isset($_SESSION["email"])) {
-    header("Location: ../../login.html");
+    header("Location: ../../login.php");
     exit();
 }
 
