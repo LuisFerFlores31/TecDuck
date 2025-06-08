@@ -22,7 +22,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nivel = (int)$_POST["level-select"];
     $usuario = $_SESSION["email"]; 
     $tipo = 3; 
-    $estado = 0; 
+    //$estado = 0; 
+    $rol = $_SESSION['rol']; 
+    $current_user_id = $_SESSION['user_id']; 
+
+    $estado;
+    $id_validador;
+
+    if ($rol === 1) { 
+        $estado = 1; 
+        $id_validador = 1; // El admin se auto-valida
+    } else { 
+        $estado = 0; 
+        $id_validador = null; 
+    }
 
     $respuesta_correcta = isset($_POST["isla-answer"]) && $_POST["isla-answer"] === "true" ? 1 : 0;
 
@@ -35,13 +48,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         
-        $sql_pregunta = "INSERT INTO Preguntas (id, enunciado, isla, nivel, usuario, estado, tipo, fecha_creacion, id_validador)
-                        VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $fecha_creacion = null;
+        $sql_pregunta = "INSERT INTO Preguntas (id, enunciado, isla, nivel, usuario, estado, tipo, id_validador)
+                        VALUES (null, ?, ?, ?, ?, ?, ?, ?)";
         $id_validador = null;
 
         $stmt = $conn->prepare($sql_pregunta);
-        $stmt->bind_param("siisiiii", $pregunta, $isla, $nivel, $usuario, $estado, $tipo, $fecha_creacion, $id_validador);
+        $stmt->bind_param("siisiii", $pregunta, $isla, $nivel, $usuario, $estado, $tipo, $id_validador);
         
         if (!$stmt->execute()) {
             throw new Exception("Error al insertar pregunta: " . $conn->error);

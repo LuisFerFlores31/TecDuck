@@ -1,8 +1,8 @@
 <?php
 $host = '127.0.0.1';
-$db = 'matecduck'; 
+$db = 'ekisde'; 
 $user = 'root';            
-$pass = '@';                
+$pass = '@Murasakibara23';                
 
 $conn = new mysqli($host, $user, $pass, $db);
 

@@ -39,6 +39,21 @@ $conn->close();
     <title>Detalles de la Pregunta</title>
     <link href="../../../admins/CRUD_Q/CSS/bootstrap.min.css" rel="stylesheet">
     <script src="../../../admins/CRUD_Q/JS/bootstrap.min.js"></script>
+    <style>
+        .imagen-pregunta {
+            max-width: 100%;
+            max-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .contenido-enunciado {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -54,7 +69,33 @@ $conn->close();
         <div class="control-group">
             <label class="control-label">Enunciado</label>
             <div class="controls">
-                <label class="checkbox"><?php echo htmlspecialchars($pregunta['enunciado']); ?></label>
+                <div class="contenido-enunciado">
+                    <?php 
+                    // Mostrar texto si existe
+                    if (!empty($pregunta['enunciado'])): ?>
+                        <div class="mb-2">
+                            <strong>Texto:</strong><br>
+                            <?php echo nl2br(htmlspecialchars($pregunta['enunciado'])); ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php 
+                    // Mostrar imagen si existe
+                    if (!empty($pregunta['imagen'])): ?>
+                        <div class="mb-2">
+                            <strong>Imagen:</strong><br>
+                            <img src="data:image/jpeg;base64,<?php echo base64_encode($pregunta['imagen']); ?>" 
+                                 class="imagen-pregunta" 
+                                 alt="Imagen de la pregunta">
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php 
+                    // Si no hay ni texto ni imagen
+                    if (empty($pregunta['enunciado']) && empty($pregunta['imagen'])): ?>
+                        <em>No hay contenido disponible</em>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
 

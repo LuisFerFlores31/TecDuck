@@ -6,17 +6,159 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Respuesta Abierta</title>
+    <style>
+        /* Estilos para el área de subida de imágenes */
+        .image-upload-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .image-upload-section.dragover {
+            border-color: #007bff;
+            background-color: #e3f2fd;
+        }
+        
+        .upload-area {
+            padding: 40px 20px;
+            cursor: pointer;
+        }
+        
+        .upload-text {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .upload-hint {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .image-preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .remove-image {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .remove-image:hover {
+            background-color: #c82333;
+        }
+        
+        .question-type-selector {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .content-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .content-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .question-input-wrapper {
+            margin-bottom: 20px;
+        }
+        
+        .required-note {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Nueva Pregunta Respuesta Abierta</h1>
-        <form id="open-question-form" action="OpenQ.php" method="POST">
-            <div class="question">
+        <form id="open-question-form" action="OpenQ.php" method="POST" enctype="multipart/form-data">
+            <!-- <div class="question">
                 <label for="question-text">Pregunta:</label>
                 <input type="text" id="question-text" name="question-text" required>
+            </div> -->
+            <!-- Selector de tipo de contenido -->
+            <div class="question-type-selector">
+                <h3>Tipo de Pregunta</h3>
+                <div class="content-options">
+                    <div class="content-option">
+                        <input type="radio" id="text-only" name="content-type" value="text" checked>
+                        <label for="text-only">Solo Texto</label>
+                    </div>
+                    <div class="content-option">
+                        <input type="radio" id="image-only" name="content-type" value="image">
+                        <label for="image-only">Solo Imagen</label>
+                    </div>
+                    <div class="content-option">
+                        <input type="radio" id="text-and-image" name="content-type" value="both">
+                        <label for="text-and-image">Texto e Imagen</label>
+                    </div>
+                </div>
+                <div class="required-note">* Debes seleccionar al menos texto o imagen para la pregunta</div>
+            </div>
+            
+            <!-- Campo de texto de la pregunta -->
+            <div class="question-input-wrapper" id="text-input-section">
+                <div class="question">
+                    <label for="question-text">Pregunta:</label>
+                    <input type="text" id="question-text" name="question-text" placeholder="Escribe tu pregunta aquí...">
+                </div>
             </div>
 
-            <input type="hidden" name="usuario" value="test@example.com"> <!-- Replace with dynamic user -->
+            <!-- Área de subida de imagen -->
+            <div class="image-upload-section" id="image-upload-section" style="display: none;">
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-text">
+                        <strong>Arrastra y suelta una imagen aquí</strong><br>
+                        o haz clic para seleccionar
+                    </div>
+                    <div class="upload-hint">
+                        Formatos soportados: JPG, JPEG, PNG (máx. 5MB)
+                    </div>
+                </div>
+                <input type="file" id="imagen" name="imagen" class="file-input" accept=".jpg,.jpeg,.png">
+                
+                <!-- Preview de la imagen -->
+                <div class="image-preview" id="image-preview" style="display: none;">
+                    <img id="preview-img" class="preview-image" alt="Vista previa">
+                    <br>
+                    <button type="button" class="remove-image" id="remove-image">Eliminar imagen</button>
+                </div>
+            </div>
+          
+
+            <!-- <input type="hidden" name="usuario" value="ls8718282@gmail.com"> -->
             <div class="dropdowns">
                 <div class="dropdown">
                     <label for="island">Isla:</label>
@@ -82,7 +224,134 @@
         <a href="../SelectQ.php">Volver al Inicio</a>
     </div>
 
+
     <script>
+        // Variables globales
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('imagen');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+        const removeImageBtn = document.getElementById('remove-image');
+        const imageUploadSection = document.getElementById('image-upload-section');
+        const textInputSection = document.getElementById('text-input-section');
+        const questionTextInput = document.getElementById('question-text');
+        
+        // Manejar cambios en el selector de tipo de contenido
+        document.querySelectorAll('input[name="content-type"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const contentType = this.value;
+                
+                // Mostrar/ocultar secciones según el tipo seleccionado
+                if (contentType === 'text') {
+                    textInputSection.style.display = 'block';
+                    imageUploadSection.style.display = 'none';
+                    questionTextInput.required = true;
+                    fileInput.required = false;
+                } else if (contentType === 'image') {
+                    textInputSection.style.display = 'none';
+                    imageUploadSection.style.display = 'block';
+                    questionTextInput.required = false;
+                    fileInput.required = true;
+                } else if (contentType === 'both') {
+                    textInputSection.style.display = 'block';
+                    imageUploadSection.style.display = 'block';
+                    questionTextInput.required = false;
+                    fileInput.required = false;
+                }
+            });
+        });
+        
+        // Drag and Drop functionality
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadSection.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            imageUploadSection.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUploadSection.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+        
+        removeImageBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            imagePreview.style.display = 'none';
+            uploadArea.style.display = 'block';
+        });
+        
+        function handleFile(file) {
+            // Validar tipo de archivo
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            if (!validTypes.includes(file.type)) {
+                alert('Por favor selecciona un archivo JPG, JPEG o PNG');
+                return;
+            }
+            
+            // Validar tamaño (5MB máximo)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('El archivo es demasiado grande. Máximo 5MB');
+                return;
+            }
+            
+            // Crear preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                uploadArea.style.display = 'none';
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            // Simular selección de archivo en input
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            fileInput.files = dt.files;
+        }
+        
+        // Validación del formulario antes de enviar
+        document.getElementById('open-question-form').addEventListener('submit', function(e) {
+            const contentType = document.querySelector('input[name="content-type"]:checked').value;
+            const questionText = questionTextInput.value.trim();
+            const hasImage = fileInput.files.length > 0;
+            
+            // Validar que haya al menos texto o imagen
+            if (contentType === 'text' && !questionText) {
+                e.preventDefault();
+                alert('Debes escribir una pregunta de texto');
+                return;
+            }
+            
+            if (contentType === 'image' && !hasImage) {
+                e.preventDefault();
+                alert('Debes seleccionar una imagen');
+                return;
+            }
+            
+            if (contentType === 'both' && !questionText && !hasImage) {
+                e.preventDefault();
+                alert('Debes proporcionar al menos texto o una imagen');
+                return;
+            }
+        });
+        
+        // Funcionalidad original
         document.getElementById('check-answer-button').addEventListener('click', function() {
             const userAnswer = document.getElementById('user-answer').value.trim().toLowerCase();
             const correctAnswers = JSON.parse(this.dataset.answers || '[]').map(a => a.toLowerCase());

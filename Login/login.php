@@ -18,6 +18,11 @@
     </style>
 </head>
 <body>
+    <?php
+    if (isset($_GET['registration_success']) && $_GET['registration_success'] == 'true') {
+        echo '<p style="color: green; text-align: center; font-weight: bold;">¡Usuario registrado exitosamente! Ahora puedes iniciar sesión.</p>';
+    }
+    ?>
     <div class="background"></div>
     <div class="header">
         <h1 class="text-outline">Matecduck</h1>
@@ -42,7 +47,7 @@
         </form>
 
         <p class="recover">¿Olvidaste tu contraseña?</p>
-        <a class="recover" href="#">Recuperar tu contraseña</a>
+        <a class="recover" href="./forgot_password.php">Recuperar tu contraseña</a>
 
         <div class="register-section">
             <p>¿No tienes una cuenta?</p>

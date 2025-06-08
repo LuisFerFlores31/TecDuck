@@ -12,7 +12,7 @@ if ($password !== $confirm_password) {
 
 $nombre = $_POST['nombre'];
 $apellido = $_POST['apellido'];
-$email = $_POST['email'];
+$email = $_POST['email']; 
 $password_hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
 $sql = "INSERT INTO Usuarios (name, last_name, password, email) VALUES (?, ?, ?, ?)";
@@ -20,9 +20,10 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("ssss", $nombre, $apellido, $password_hashed, $email);
 
 if ($stmt->execute()) {
-    echo "Usuario registrado exitosamente.";
+    header("Location: login.php?registration_success=true"); 
+    exit();
 } else {
-    echo "Error: " . $stmt->error;
+    die("Error al registrar usuario: " . $stmt->error);
 }
 
 $conn->close();

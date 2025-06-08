@@ -26,9 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if ($action === 'approve') {
             // Aprobar pregunta 
-            $sql_update = "UPDATE Preguntas SET estado = 1 WHERE id = ?";
+            $id_admin_validador = $_SESSION['user_id']; 
+            $sql_update = "UPDATE Preguntas SET estado = 1, id_validador = ? WHERE id = ?";
             $stmt_update = $conn->prepare($sql_update);
-            $stmt_update->bind_param("i", $question_id);
+            $stmt_update->bind_param("ii", $id_admin_validador, $question_id);
             $stmt_update->execute();
             $message = "Pregunta aprobada exitosamente.";
         } elseif ($action === 'reject') {
@@ -80,8 +81,20 @@ $message = $_GET['msg'] ?? '';
             background-color: #17a2b8;
             color: #fff;
         }
-
-
+        .imagen-pregunta-pending {
+            max-width: 200px;
+            max-height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .contenido-enunciado-pending {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -113,7 +126,18 @@ $message = $_GET['msg'] ?? '';
                     <div class="question-header">
                         <div class="row">
                             <div class="col-md-8">
-                                <h5 class="mb-1"><?php echo htmlspecialchars($row['enunciado']); ?></h5>
+                                <h5 class="mb-1">
+                                    <?php 
+                                    // Mostrar título basado en el contenido disponible
+                                    if (!empty($row['enunciado'])) {
+                                        echo htmlspecialchars(substr($row['enunciado'], 0, 100)) . (strlen($row['enunciado']) > 100 ? '...' : '');
+                                    } elseif (!empty($row['imagen'])) {
+                                        echo 'Pregunta con imagen';
+                                    } else {
+                                        echo 'Pregunta sin contenido';
+                                    }
+                                    ?>
+                                </h5>
                                 <small class="text-muted">
                                     Creada por: <strong><?php echo htmlspecialchars($row['profesor_nombre'] ?? 'Usuario desconocido'); ?></strong> | 
                                     Fecha: <?php echo $row['fecha_creacion']; ?>
@@ -132,13 +156,37 @@ $message = $_GET['msg'] ?? '';
                     <div class="question-body">
                         <div class="row">
                             <div class="col-md-8">
-                                <p><strong>Tipo:</strong> <?php echo htmlspecialchars($row['tipo']); ?></p>
-                                <p><strong>Isla:</strong> <?php echo htmlspecialchars($row['isla']); ?></p>
-                                <p><strong>Nivel:</strong> <?php echo htmlspecialchars($row['nivel']); ?></p>
+                                <!-- Mostrar contenido del enunciado -->
+                                <div class="contenido-enunciado-pending">
+                                    <strong>Enunciado:</strong><br>
+                                    <?php 
+                                    // Mostrar texto si existe
+                                    if (!empty($row['enunciado'])): ?>
+                                        <div class="mb-2">
+                                            <?php echo nl2br(htmlspecialchars($row['enunciado'])); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    
+                                    <?php 
+                                    // Mostrar imagen si existe
+                                    if (!empty($row['imagen'])): ?>
+                                        <div class="mb-2">
+                                            <img src="data:image/jpeg;base64,<?php echo base64_encode($row['imagen']); ?>" 
+                                                 class="imagen-pregunta-pending" 
+                                                 alt="Imagen de la pregunta">
+                                        </div>
+                                    <?php endif; ?>
+                                    
+                                    <?php 
+                                    // Si no hay ni texto ni imagen
+                                    if (empty($row['enunciado']) && empty($row['imagen'])): ?>
+                                        <em>No hay contenido disponible</em>
+                                    <?php endif; ?>
+                                </div>
                                 
-                                <?php 
-                                
-                                ?>
+                                <p><strong>Tipo:</strong> <?php echo htmlspecialchars($row['tipo'] ?? ''); ?></p>
+                                <p><strong>Isla:</strong> <?php echo htmlspecialchars($row['isla'] ?? ''); ?></p>
+                                <p><strong>Nivel:</strong> <?php echo htmlspecialchars($row['nivel'] ?? ''); ?></p>
                                 
                                 <div class="mt-3">
                                     <strong>Respuestas disponibles:</strong>
@@ -154,7 +202,7 @@ $message = $_GET['msg'] ?? '';
                                         <?php while ($resp = $respuestas->fetch_assoc()): ?>
                                             <li>
                                                 <strong><?php echo $resp['numero_respuesta']; ?>:</strong> 
-                                                <?php echo htmlspecialchars($resp['enunciado']); ?>
+                                                <?php echo htmlspecialchars($resp['enunciado'] ?? ''); ?>
                                                 <?php if ($resp['esCorrecta']): ?>
                                                     <span class="badge bg-success">Correcta</span>
                                                 <?php endif; ?>

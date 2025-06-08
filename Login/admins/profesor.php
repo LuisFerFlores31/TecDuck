@@ -11,6 +11,22 @@ include '../check_session.php';
   <meta charset="UTF-8" />
   <title>Matecduck - Profesor</title>
   <link rel="stylesheet" href="admin_profesor.css" />
+  <style>
+    .imagen-fondo-inferior {
+      position: fixed;
+      bottom: 100px;
+      left: 55%;
+      transform: translateX(-50%) rotate(90deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .imagen-fondo-inferior img {
+      width: 600px;
+      max-width: 80%;
+    }
+
+  </style>
 </head>
 <body>
   
@@ -50,31 +66,9 @@ include '../check_session.php';
       <br>
 
       </br>
-
-  
-      <div class="estado-preguntas">
-        <h3>Estado de preguntas</h3>
-        <div class="preguntas-container">
-          <div class="pregunta-card">
-            <h4>"P1, I2 N2"</h4>
-            <p>Estado: ACEPTADO</p>
-            <p>Tipo: Opción múltiple</p>
-          </div>
-      
-          <div class="pregunta-card">
-            <h4>"P2 I1 N1"</h4>
-            <p>Estado: En revisión</p>
-            <p>Tipo: Opción múltiple</p>
-          </div>
-      
-          <div class="pregunta-card">
-            <h4>"P3 I3 N5"</h4>
-            <p>Estado: Aceptada</p>
-            <p>Tipo: Abierta</p>
-          </div>
-        </div>
+      <div class="imagen-fondo-inferior">
+        <img src="../images/blackk.png" alt="imager" />
       </div>
-      
     </section>
   </main>
 </body>

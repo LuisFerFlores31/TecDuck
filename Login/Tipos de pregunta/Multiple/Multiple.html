@@ -1,22 +1,183 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Multiple</title>
+    <title>Opción Múltiple</title>
     <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Opción Múltiple</title>
-    
+    <style>
+        /* Estilos para el área de subida de imágenes */
+        .image-upload-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .image-upload-section.dragover {
+            border-color: #007bff;
+            background-color: #e3f2fd;
+        }
+        
+        .upload-area {
+            padding: 40px 20px;
+            cursor: pointer;
+        }
+        
+        .upload-text {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .upload-hint {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .image-preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .remove-image {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .remove-image:hover {
+            background-color: #c82333;
+        }
+        
+        .question-type-selector {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .content-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .content-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .question-input-wrapper {
+            margin-bottom: 20px;
+        }
+        
+        .required-note {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .correct-answer-indicator {
+            background-color: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .option-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .correct-checkbox {
+            transform: scale(1.2);
+        }
+
+        .preview-option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Nueva Pregunta Opción Múltiple</h1>
-        <form id="multiple-choice-form" action="Multiple.php" method="POST">
-            <div class="question">
-                <label for="question-text">Pregunta:</label>
-                <input type="text" id="question-text" name="question-text" required>
+        <form id="multiple-choice-form" action="Multiple.php" method="POST" enctype="multipart/form-data">
+            
+            <!-- Selector de tipo de contenido -->
+            <div class="question-type-selector">
+                <h3>Tipo de Pregunta</h3>
+                <div class="content-options">
+                    <div class="content-option">
+                        <input type="radio" id="text-only" name="content-type" value="text" checked>
+                        <label for="text-only">Solo Texto</label>
+                    </div>
+                    <div class="content-option">
+                        <input type="radio" id="image-only" name="content-type" value="image">
+                        <label for="image-only">Solo Imagen</label>
+                    </div>
+                    <div class="content-option">
+                        <input type="radio" id="text-and-image" name="content-type" value="both">
+                        <label for="text-and-image">Texto e Imagen</label>
+                    </div>
+                </div>
+                <div class="required-note">* Debes seleccionar al menos texto o imagen para la pregunta</div>
             </div>
-            <input type="hidden" name="usuario" value="test@example.com"> <!-- Replace with dynamic user -->
+            
+            <!-- Campo de texto de la pregunta -->
+            <div class="question-input-wrapper" id="text-input-section">
+                <div class="question">
+                    <label for="question-text">Pregunta:</label>
+                    <input type="text" id="question-text" name="question-text" placeholder="Escribe tu pregunta aquí...">
+                </div>
+            </div>
+
+            <!-- Área de subida de imagen -->
+            <div class="image-upload-section" id="image-upload-section" style="display: none;">
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-text">
+                        <strong>Arrastra y suelta una imagen aquí</strong><br>
+                        o haz clic para seleccionar
+                    </div>
+                    <div class="upload-hint">
+                        Formatos soportados: JPG, JPEG, PNG (máx. 5MB)
+                    </div>
+                </div>
+                <input type="file" id="imagen" name="imagen" class="file-input" accept=".jpg,.jpeg,.png">
+                
+                <!-- Preview de la imagen -->
+                <div class="image-preview" id="image-preview" style="display: none;">
+                    <img id="preview-img" class="preview-image" alt="Vista previa">
+                    <br>
+                    <button type="button" class="remove-image" id="remove-image">Eliminar imagen</button>
+                </div>
+            </div>
+
             <div class="dropdowns">
                 <div class="dropdown">
                     <label for="island">Isla:</label>
@@ -48,26 +209,39 @@
                     </select>
                 </div>
             </div>
+
             <div class="options">
                 <div class="option">
-                    <label for="option1">Opción A (Correcta):</label>
-                    <input type="text" id="option1" name="respuesta1" required>
-                    <input type="hidden" name="correcta1" value="1"> <!-- Mark as correct -->
+                    <div class="option-wrapper">
+                        <input type="checkbox" id="correcta1" name="correcta1" value="1" class="correct-checkbox">
+                        <label for="option1">Opción A:</label>
+                        <input type="text" id="option1" name="respuesta1" required>
+                        <span class="correct-answer-indicator" id="indicator1" style="display: none;">CORRECTA</span>
+                    </div>
                 </div>
                 <div class="option">
-                    <label for="option2">Opción B:</label>
-                    <input type="text" id="option2" name="respuesta2" required>
-                    <input type="hidden" name="correcta2" value="0"> <!-- Not correct -->
+                    <div class="option-wrapper">
+                        <input type="checkbox" id="correcta2" name="correcta2" value="1" class="correct-checkbox">
+                        <label for="option2">Opción B:</label>
+                        <input type="text" id="option2" name="respuesta2" required>
+                        <span class="correct-answer-indicator" id="indicator2" style="display: none;">CORRECTA</span>
+                    </div>
                 </div>
                 <div class="option">
-                    <label for="option3">Opción C:</label>
-                    <input type="text" id="option3" name="respuesta3">
-                    <input type="hidden" name="correcta3" value="0"> <!-- Not correct -->
+                    <div class="option-wrapper">
+                        <input type="checkbox" id="correcta3" name="correcta3" value="1" class="correct-checkbox">
+                        <label for="option3">Opción C:</label>
+                        <input type="text" id="option3" name="respuesta3">
+                        <span class="correct-answer-indicator" id="indicator3" style="display: none;">CORRECTA</span>
+                    </div>
                 </div>
                 <div class="option">
-                    <label for="option4">Opción D:</label>
-                    <input type="text" id="option4" name="respuesta4">
-                    <input type="hidden" name="correcta4" value="0"> <!-- Not correct -->
+                    <div class="option-wrapper">
+                        <input type="checkbox" id="correcta4" name="correcta4" value="1" class="correct-checkbox">
+                        <label for="option4">Opción D:</label>
+                        <input type="text" id="option4" name="respuesta4">
+                        <span class="correct-answer-indicator" id="indicator4" style="display: none;">CORRECTA</span>
+                    </div>
                 </div>
             </div>
             <button type="submit">Guardar Pregunta</button>
@@ -75,23 +249,26 @@
     </div>
 
     <div>
-        <h2> Preview </h2>
+        <h2>Preview</h2>
         <div class="preview-box">
             <div class="preview-question">
                 <p id="preview-question">Aquí aparecerá la pregunta</p>
+                <div id="preview-image-container" style="display: none; margin-top: 15px;">
+                    <img id="preview-question-image" style="max-width: 100%; max-height: 200px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
             </div>
             <div class="preview-options">
                 <div class="option">
-                    <button id="preview-option1-button">Opción A</button>
+                    <button id="preview-option1-button" class="preview-option">Opción A</button>
                 </div>
                 <div class="option">
-                    <button id="preview-option2-button">Opción B</button>
+                    <button id="preview-option2-button" class="preview-option">Opción B</button>
                 </div>
                 <div class="option">
-                    <button id="preview-option3-button">Opción C</button>
+                    <button id="preview-option3-button" class="preview-option">Opción C</button>
                 </div>
                 <div class="option">
-                    <button id="preview-option4-button">Opción D</button>
+                    <button id="preview-option4-button" class="preview-option">Opción D</button>
                 </div>
             </div>
         </div>
@@ -99,25 +276,188 @@
     </div>
 
     <script>
-        // Update preview in real-time as user types
+        // Variables globales
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('imagen');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+        const removeImageBtn = document.getElementById('remove-image');
+        const imageUploadSection = document.getElementById('image-upload-section');
+        const textInputSection = document.getElementById('text-input-section');
+        const questionTextInput = document.getElementById('question-text');
+        
+        // Manejar cambios en el selector de tipo de contenido
+        document.querySelectorAll('input[name="content-type"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const contentType = this.value;
+                
+                if (contentType === 'text') {
+                    textInputSection.style.display = 'block';
+                    imageUploadSection.style.display = 'none';
+                    questionTextInput.required = true;
+                    fileInput.required = false;
+                } else if (contentType === 'image') {
+                    textInputSection.style.display = 'none';
+                    imageUploadSection.style.display = 'block';
+                    questionTextInput.required = false;
+                    fileInput.required = true;
+                } else if (contentType === 'both') {
+                    textInputSection.style.display = 'block';
+                    imageUploadSection.style.display = 'block';
+                    questionTextInput.required = false;
+                    fileInput.required = false;
+                }
+            });
+        });
+        
+        // Drag and Drop functionality
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadSection.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            imageUploadSection.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUploadSection.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+        
+        removeImageBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            imagePreview.style.display = 'none';
+            uploadArea.style.display = 'block';
+            document.getElementById('preview-image-container').style.display = 'none';
+        });
+        
+        function handleFile(file) {
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            if (!validTypes.includes(file.type)) {
+                alert('Por favor selecciona un archivo JPG, JPEG o PNG');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                alert('El archivo es demasiado grande. Máximo 5MB');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                uploadArea.style.display = 'none';
+                imagePreview.style.display = 'block';
+                
+                // Mostrar también en el preview de la pregunta
+                document.getElementById('preview-question-image').src = e.target.result;
+                document.getElementById('preview-image-container').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            fileInput.files = dt.files;
+        }
+        
+        // Validación del formulario antes de enviar
+        document.getElementById('multiple-choice-form').addEventListener('submit', function(e) {
+            const contentType = document.querySelector('input[name="content-type"]:checked').value;
+            const questionText = questionTextInput.value.trim();
+            const hasImage = fileInput.files.length > 0;
+            
+            // Validar que haya al menos texto o imagen
+            if (contentType === 'text' && !questionText) {
+                e.preventDefault();
+                alert('Debes escribir una pregunta de texto');
+                return;
+            }
+            
+            if (contentType === 'image' && !hasImage) {
+                e.preventDefault();
+                alert('Debes seleccionar una imagen');
+                return;
+            }
+            
+            if (contentType === 'both' && !questionText && !hasImage) {
+                e.preventDefault();
+                alert('Debes proporcionar al menos texto o una imagen');
+                return;
+            }
+
+            // Validar que haya al menos una respuesta marcada como correcta
+            const correctAnswers = document.querySelectorAll('input[name^="correcta"]:checked');
+            if (correctAnswers.length === 0) {
+                e.preventDefault();
+                alert('Debes marcar al menos una respuesta como correcta');
+                return;
+            }
+
+            // Validar que haya al menos 2 opciones con texto
+            let filledOptions = 0;
+            for (let i = 1; i <= 4; i++) {
+                if (document.getElementById(`option${i}`).value.trim() !== '') {
+                    filledOptions++;
+                }
+            }
+            
+            if (filledOptions < 2) {
+                e.preventDefault();
+                alert('Debes llenar al menos 2 opciones de respuesta');
+                return;
+            }
+        });
+        
+        // Manejar indicadores de respuesta correcta
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById(`correcta${i}`).addEventListener('change', function() {
+                const indicator = document.getElementById(`indicator${i}`);
+                const previewButton = document.getElementById(`preview-option${i}-button`);
+                
+                if (this.checked) {
+                    indicator.style.display = 'inline';
+                    previewButton.classList.add('correct');
+                } else {
+                    indicator.style.display = 'none';
+                    previewButton.classList.remove('correct');
+                }
+            });
+        }
+
+        // Update preview in real-time
         document.getElementById('question-text').addEventListener('input', function() {
-            document.getElementById('preview-question').textContent = this.value;
+            document.getElementById('preview-question').textContent = this.value || 'Aquí aparecerá la pregunta';
         });
 
         document.getElementById('option1').addEventListener('input', function() {
-            document.getElementById('preview-option1-button').textContent = this.value;
+            document.getElementById('preview-option1-button').textContent = this.value || 'Opción A';
         });
 
         document.getElementById('option2').addEventListener('input', function() {
-            document.getElementById('preview-option2-button').textContent = this.value;
+            document.getElementById('preview-option2-button').textContent = this.value || 'Opción B';
         });
 
         document.getElementById('option3').addEventListener('input', function() {
-            document.getElementById('preview-option3-button').textContent = this.value;
+            document.getElementById('preview-option3-button').textContent = this.value || 'Opción C';
         });
 
         document.getElementById('option4').addEventListener('input', function() {
-            document.getElementById('preview-option4-button').textContent = this.value;
+            document.getElementById('preview-option4-button').textContent = this.value || 'Opción D';
         });
 
         window.onload = function() {
@@ -129,7 +469,6 @@
                 alert('¡Pregunta guardada exitosamente por ' + (user || 'usuario') + '!');
             }
         };
-
     </script>
 </body>
 </html>

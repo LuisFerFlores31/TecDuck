@@ -39,6 +39,18 @@ $result = $stmt->get_result();
     <title>Gestión de Preguntas</title>
     <link href="../CSS/bootstrap.min.css" rel="stylesheet">
     <script src="../JS/bootstrap.min.js"></script>
+    <style>
+        .imagen-pregunta-mini {
+            max-width: 60px;
+            max-height: 60px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+        .contenido-enunciado-tabla {
+            max-width: 300px;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -113,12 +125,43 @@ $result = $stmt->get_result();
                 </thead>
                 <tbody>
                     <?php while ($row = $result->fetch_assoc()): ?>
-                        <tr class="<?= str_ends_with(strtolower($row['enunciado']), '.png') ? 'fila-png' : '' ?>">
-                            <td><?= htmlspecialchars($row['enunciado']) ?></td>
-                            <td><?= htmlspecialchars($row['tipo']) ?></td>
-                            <td><?= htmlspecialchars($row['isla']) ?></td>
-                            <td><?= htmlspecialchars($row['nivel']) ?></td>
+
+                        <?php 
+                            $enunciado = $row['enunciado'] ?? '';
+                            $es_png = str_ends_with(strtolower($enunciado), '.png');
+                        ?>
+
+                        <tr class="<?= $es_png ? 'fila-png' : '' ?>">
+                            <td class="contenido-enunciado-tabla">
+                                <?php 
+                                // Mostrar texto si existe
+                                if (!empty($row['enunciado'])): ?>
+                                    <div class="mb-1">
+                                        <?php echo htmlspecialchars(substr($row['enunciado'], 0, 100)) . (strlen($row['enunciado']) > 100 ? '...' : ''); ?>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php 
+                                // Mostrar imagen si existe
+                                if (!empty($row['imagen'])): ?>
+                                    <div class="mb-1">
+                                        <img src="data:image/jpeg;base64,<?php echo base64_encode($row['imagen']); ?>" 
+                                             class="imagen-pregunta-mini" 
+                                             alt="Imagen de la pregunta">
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php 
+                                // Si no hay ni texto ni imagen
+                                if (empty($row['enunciado']) && empty($row['imagen'])): ?>
+                                    <em>Sin contenido</em>
+                                <?php endif; ?>
+                            </td>
+                            <td><?= htmlspecialchars($row['tipo'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($row['isla'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($row['nivel'] ?? '') ?></td>
                             <td>
+
                                 <?php
                                     switch ($row['estado']) {
                                         case 0:
